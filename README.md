@@ -1,2 +1,2 @@
-# Artisanz
-Artisanz
+# Artizanz
+Artizanz
