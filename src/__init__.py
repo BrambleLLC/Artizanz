@@ -7,3 +7,5 @@ app.config.from_object(config)
 db = SQLAlchemy(app)
 
 from views import *
+from models import *
+db.create_all()
