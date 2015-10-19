@@ -17,7 +17,7 @@ class Posting(db.Model):
     __tablename__ = "posting"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Unicode(64), index=True)
-    description = db.Column(1200)
+    description = db.Column(db.UnicodeText(1600))
     price = db.Column(db.Integer, default=100)
     user_id = db.ForeignKey("user.id", index=True)
 
