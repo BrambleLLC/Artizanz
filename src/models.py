@@ -21,7 +21,7 @@ class Posting(db.Model):
     price = db.Column(db.Integer, default=100)
     user_id = db.ForeignKey("user.id", index=True)
 
-
+"""
 class Bid(db.Model):
     __tablename__ = "bid"
 
@@ -32,3 +32,4 @@ class PrivateMessage(db.Model):
 
 class Transaction(db.Model):
     __tablename__ = "transaction"
+"""
