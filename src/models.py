@@ -7,7 +7,7 @@ class User(db.Model):
     ROLE_USER = 1
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode(64), index=True)
-    username = db.Column(db.Unicode(20), index=True)
+    email = db.Column(db.Unicode(64), index=True)
     password_hash = db.Column(db.Unicode(120))
     role = db.Column(db.Integer, default=ROLE_USER)
     postings = db.relationship("Posting", backref="user")
