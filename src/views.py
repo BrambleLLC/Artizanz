@@ -17,5 +17,5 @@ def work(wid):
 def sign_up():
     form = SignUp()
     if form.validate_on_submit():
-        return request.form["name"] + " " + request.form["email"] + " " + request.form["password"]
+        return request.form["username"] + " " + request.form["email"] + " " + request.form["password"]
     return render_template("sign_up.html", form=form)

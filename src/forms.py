@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired
 
 
 class SignUp(Form):
-    name = StringField("Name", validators=[DataRequired()])
+    username = StringField("User Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
+    confirm_password = PasswordField("Confirm Password", validators=[DataRequired()])

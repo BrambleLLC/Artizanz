@@ -36,7 +36,29 @@
 
         <!-- register -->
         <div class="col-md-6 portfolio-item">
-           <div class="panel panel-default">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form action="/sign_up" method="post">
+                        {{ form.csrf_token }}
+                        <div class="form-group">
+                            {{ form.username.label }} {{ form.username(class="form-control", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.email.label }} {{ form.email(class="form-control", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.password.label }} {{ form.password(class="form-control", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.confirm_password.label }} {{ form.confirm_password(class="form-control", rows=1) }}
+                        </div>
+                        <button type="submit" class="btn btn-lg btn-block btn-primary"> Register </button>
+                    </form>
+                </div>
+            </div>
+
+            <!--
+            <div class="panel panel-default">
             <div class="panel-body">
               <div class="form-group">
                 <label for="register_username">User Name:</label>
@@ -53,6 +75,7 @@
               <button type="button" class="btn btn-lg btn-block btn-primary">Register</button>
             </div>
           </div>
+          -->
         </div>
     </div>
 </div>
