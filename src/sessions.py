@@ -40,3 +40,19 @@ def verify_session():
 def destroy_session():
     session.pop("username", None)
     session.pop("session-id", None)
+    delete_session_next()
+
+
+def set_session_next(next_path):
+    session["next"] = next_path
+
+
+def get_session_next():
+    if session.get("next"):
+        return session["next"]
+    else:
+        return "/"
+
+
+def delete_session_next():
+    session.pop("next", None)
