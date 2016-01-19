@@ -55,6 +55,7 @@
         </div>
         <!-- /.container -->
     </nav>
+
     <div class="container">
 
         {% block content %}
@@ -62,7 +63,12 @@
 
     </div>
 
-    <div id="footer"> {% block footer %} {% endblock %} </div>
+    <div id="footer">
+
+        {% block footer %}
+        {% endblock %}
+
+    </div>
 
     <!-- JQuery -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
