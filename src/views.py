@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, session
 from src import app
 from forms import SignUpForm, LoginForm
 from functools import wraps
@@ -65,3 +65,14 @@ def tos():
 @app.route("/faq", methods=["GET"])
 def faq():
     return render_template("faq.html")
+
+
+@app.route("/profile", methods=["GET"])
+@login_required
+def default_profile():
+    return redirect("/profile/" + session["username"])
+
+
+@app.route("/profile/<string:username>")
+def user_profile(username):
+    return username
