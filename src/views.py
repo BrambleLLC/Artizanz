@@ -1,6 +1,20 @@
-from flask import request, render_template
+from flask import request, render_template, redirect, url_for
 from src import app
 from forms import SignUpForm, LoginForm
+from functools import wraps
+from sessions import verify_session, create_session, destroy_session, set_session_next, get_session_next, \
+                     delete_session_next
+
+
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if verify_session():
+            return f(*args, **kwargs)
+        else:
+            set_session_next(request.path)
+            return redirect(url_for("login"))
+    return wrapper
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -23,10 +37,24 @@ def sign_up():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if verify_session():
+        next_url = get_session_next()
+        delete_session_next()
+        return redirect(next_url)
     form = LoginForm()
     if form.validate_on_submit():
-        return request.form["username"] + " " + request.form["password"]
+        create_session(request.form["username"])
+        next_url = get_session_next()
+        delete_session_next()
+        return redirect(next_url)
     return render_template("login.html", form=form)
+
+
+@app.route("/logout", methods=["GET", "POST"])
+@login_required
+def logout():
+    destroy_session()
+    return redirect(url_for("index"))
 
 
 @app.route("/tos", methods=["GET"])
