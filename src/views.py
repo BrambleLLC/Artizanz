@@ -70,7 +70,7 @@ def faq():
 @app.route("/profile", methods=["GET"])
 @login_required
 def default_profile():
-    return user_profile(session["username"])
+    return redirect(url_for("user_profile", username=session["username"]))
 
 
 @app.route("/profile/<string:username>")
