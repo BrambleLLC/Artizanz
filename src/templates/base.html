@@ -44,12 +44,22 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/login">Login</a>
-                    </li>
-                    <li>
-                        <a href="/sign_up">Register</a>
-                    </li>
+                    {% if not session.get("username") %}
+                        <li>
+                            <a href="/login">Login</a>
+                        </li>
+                        <li>
+                            <a href="/sign_up">Register</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="/profile">My Profile</a>
+                        </li>
+                        <li>
+                            <a href="/logout">Logout</a>
+                        </li>
+                    {% endif %}
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
