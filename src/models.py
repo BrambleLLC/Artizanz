@@ -9,6 +9,12 @@ class User(db.Model):
     name = db.Column(db.Unicode(64), index=True)
     email = db.Column(db.Unicode(64), index=True)
     password_hash = db.Column(db.Unicode(120))
+    address_1 = db.Column(db.Unicode(120))
+    address_2 = db.Column(db.Unicode(120))
+    city = db.Column(db.Unicode(30))
+    state = db.Column(db.Unicode(30))
+    country = db.Column(db.Unicode(30))
+    zipcode = db.Column(db.Unicode(12))
     role = db.Column(db.Integer, default=ROLE_USER)
     postings = db.relationship("Posting", backref="user")
 
