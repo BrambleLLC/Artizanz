@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 import hmac
 from hashlib import sha256
 import base64
-from functools import wraps
 
 
 expire_timedelta = timedelta(days=60)
@@ -24,14 +23,16 @@ def create_session(username):
 
 
 def verify_session():
-    username = session["username"]
-    session_id = session["session-id"]
+    username = session.get("username")
+    session_id = session.get("session-id")
+    if not username or not session_id:
+        return False
     tokens = session_id.split(":")
     if username != tokens[0]:
         return False
-    creation_datetime = datetime.utcfromtimestamp(int(tokens[1]))
+    creation_datetime = datetime.fromtimestamp(int(tokens[1]))
     now = datetime.utcnow()
-    if now - creation_datetime > timedelta:
+    if now - creation_datetime > expire_timedelta:
         return False
     return generate_session_id(username, creation_datetime) == session_id
 
