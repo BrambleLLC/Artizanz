@@ -1,6 +1,7 @@
 from src import app
 from flask import session, escape
 from datetime import datetime, timedelta
+import time
 import hmac
 from hashlib import sha256
 import base64
@@ -10,7 +11,7 @@ expire_timedelta = timedelta(days=60)
 
 
 def generate_session_id(username, dt):
-    unix_timestamp = dt.strftime("%s")
+    unix_timestamp = int(time.mktime(dt.timetuple()))
     session_prefix = username + ":" + unix_timestamp
     session_hmac = base64.b64encode(hmac.new(app.secret_key, session_prefix, digestmod=sha256).digest())
     session_id = session_prefix + ":" + session_hmac
