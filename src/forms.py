@@ -14,3 +14,8 @@ class SignUpForm(Form):
 class LoginForm(Form):
     username = StringField("User Name", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
+
+
+class RecoveryForm(Form):
+    email = StringField("Email", validators=[DataRequired()])
+
