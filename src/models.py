@@ -15,6 +15,7 @@ class User(db.Model):
     state = db.Column(db.Unicode(30))
     country = db.Column(db.Unicode(30))
     zipcode = db.Column(db.Unicode(12))
+    phone_number = db.Column(db.Unicode(10))
     role = db.Column(db.Integer, default=ROLE_USER)
     postings = db.relationship("Posting", backref="user")
 
