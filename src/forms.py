@@ -1,6 +1,7 @@
 from flask_wtf import Form
 from wtforms import StringField
 from wtforms import PasswordField
+from wtforms import BooleanField
 from wtforms.validators import DataRequired
 
 
@@ -14,6 +15,7 @@ class SignUpForm(Form):
 class LoginForm(Form):
     username = StringField("User Name", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
+    remember_me = BooleanField("Remember Me")
 
 
 class RecoveryForm(Form):

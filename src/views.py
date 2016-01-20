@@ -48,6 +48,7 @@ def login():
         return redirect(next_url)
     form = LoginForm()
     if form.validate_on_submit():
+        session.permanent = form.data.get("remember_me")
         create_session(request.form["username"])
         next_url = get_session_next()
         delete_session_next()

@@ -21,7 +21,7 @@
                             {{ form.password(class="form-control", placeholder="Password", rows=1) }}
                         </div>
                         <label class="form-group">
-                            <input id="id_remember" name="remember" type="checkbox" />   Remember Me
+                            {{ form.remember_me }}  Remember Me
                         </label>
                         <button type="submit" class="btn btn-lg btn-block btn-primary" > Login </button>
                     </form>
