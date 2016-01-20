@@ -17,6 +17,11 @@ def login_required(f):
     return wrapper
 
 
+@app.before_request
+def regenerate():
+    session.modified = True
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     return render_template("index.html")
