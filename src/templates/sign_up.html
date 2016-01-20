@@ -15,75 +15,77 @@
     <!-- register -->
     <div class="col-lg-4 col-md-4 col-centered">
         <div class="panel panel-default">
-            <div class="panel-body" id="secret_panel">
+            <form method="post" action="/sign_up">
+                <div class="panel-body" id="secret_panel">
 
-            </div>
-            <div class="hidden" id="page1">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="username" placeholder="Username" autofocus="autofocus" >
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="email" placeholder="Email" >
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" id="password" placeholder="Password" >
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" >
-                </div>
-                <button class="btn btn-md btn-block btn-primary" onclick="moveForward()"> Next </button>
-            </div>
-            <div class="hidden" id="page2">
-                <div class="form-group">
-                    <input class="form-control" type="text" id="address_line1" placeholder="Address Line 1" autofocus="autofocus">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" id="address_line2" placeholder="Address Line 2">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" id="city" placeholder="City">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" id="state" placeholder="State">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" id="zip" placeholder="Zip Code">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" id="country" placeholder="Country">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" id="phone_number" placeholder="Phone Number (optional)">
-                </div>
-                <div class="row">
-                   <div class="col-xs-6">
-                       <button class="btn btn-md btn-block btn-primary" onclick="moveBackward()"> Previous </button>
-                   </div>
-                    <div class="col-xs-6">
-                        <button class="btn btn-md btn-block btn-primary" onclick="moveForward()"> Next </button>
+                <div class="hidden" id="page1">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="username" placeholder="Username" autofocus="autofocus" >
                     </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="email" placeholder="Email" >
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password" placeholder="Password" >
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" >
+                    </div>
+                    <button type="button" class="btn btn-md btn-block btn-primary" onclick="moveForward()"> Next </button>
                 </div>
-            </div>
-            <div class="hidden" id="page3">
-                <div class="form-group">
-                    <div class="text-center">
-                        <img src="//placehold.it/250" class="avatar img" alt="avatar">
-                        <h6>Upload Profile Picture (Optional)</h6>
-                        <div class="input-group">
-                            <input type="file" class="form-control" autofocus="autofocus">
-                            <span class="input-group-addon btn-default" id="upload_button">Upload</span>
+                <div class="hidden" id="page2">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="address_line1" placeholder="Address Line 1" autofocus="autofocus">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="address_line2" placeholder="Address Line 2">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="city" placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="state" placeholder="State">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="zip" placeholder="Zip Code">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="country" placeholder="Country">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="phone_number" placeholder="Phone Number (optional)">
+                    </div>
+                    <div class="row">
+                       <div class="col-xs-6">
+                           <button type="button" class="btn btn-md btn-block btn-primary" onclick="moveBackward()"> Previous </button>
+                       </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-md btn-block btn-primary" onclick="moveForward()"> Next </button>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                   <div class="col-xs-6">
-                       <button class="btn btn-block btn-primary btn-md" onclick="moveBackward()"> Previous </button>
-                   </div>
-                    <div class="col-xs-6">
-                        <button class="btn btn-block btn-primary btn-md" onclick="submit()"> Submit </button>
+                <div class="hidden" id="page3">
+                    <div class="form-group">
+                        <div class="text-center">
+                            <img src="//placehold.it/250" class="avatar img" alt="avatar">
+                            <h6>Upload Profile Picture (Optional)</h6>
+                            <div class="input-group">
+                                <input type="file" class="form-control" autofocus="autofocus">
+                                <span class="input-group-addon btn-default" id="upload_button">Upload</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-xs-6">
+                           <button type="button" class="btn btn-block btn-primary btn-md" onclick="moveBackward()"> Previous </button>
+                       </div>
+                        <div class="col-xs-6">
+                            <button type="button" class="btn btn-block btn-primary btn-md" onclick="goober()"> Submit </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -106,6 +108,7 @@
 {% block navbar_selector %}
     <script type="text/javascript">
         var page_num = 1;
+        /*
         var skeleman = {
             username: "",
             email: "",
@@ -119,11 +122,13 @@
             country: "",
             phone_number: ""
         };
+        */
         $(document).ready(function () {
             $("#sign_up").addClass("active");
             showPage1();
         });
 
+        /*
         function save1() {
             skeleman.username = $("#username").val();
             skeleman.email = $("#email").val();
@@ -143,41 +148,50 @@
         function save3() {
 
         }
+        */
 
         function showPage1() {
-            $("#secret_panel").html($("#page1").html());
+            $("#page1").detach().appendTo($("#secret_panel")).removeClass("hidden");
+            $("#username").focus();
+            /*
             $("#username").val(skeleman.username).focus();
             $("#email").val(skeleman.email);
             $("#password").val(skeleman.password);
             $("#confirm_password").val(skeleman.confirm_password);
+            */
             $("#page_num").html("Part 1 of 3.");
         }
 
         function showPage2() {
-            $("#secret_panel").html($("#page2").html());
+            $("#page2").appendTo($("#secret_panel")).removeClass("hidden");
+            $("#address_line1").focus();
+            /*
             $("#address_line1").val(skeleman.address_line1).focus();
             $("#address_line2").val(skeleman.address_line2);
             $("#city").val(skeleman.city);
             $("#state").val(skeleman.state);
             $("#country").val(skeleman.country);
             $("#phone_number").val(skeleman.phone_number);
+            */
             $("#page_num").html("Part 2 of 3.");
         }
 
         function showPage3() {
-            $("#secret_panel").html($("#page3").html());
+            $("#page3").appendTo($("#secret_panel")).removeClass("hidden");
             $("#page_num").html("Part 3 of 3.");
         }
 
         function moveForward() {
             switch (page_num) {
                 case 1:
-                    save1();
+                    //save1();
+                    $("#page1").detach().insertAfter($("#secret_panel")).addClass("hidden");
                     showPage2();
                     page_num = 2;
                     break;
                 case 2:
-                    save2();
+                    //save2();
+                    $("#page2").detach().insertAfter($("#secret_panel")).addClass("hidden");
                     showPage3();
                     page_num = 3;
                     break;
@@ -187,19 +201,21 @@
         function moveBackward() {
             switch (page_num) {
                 case 2:
-                    save2();
+                    //save2();
+                    $("#page2").detach().insertAfter($("#secret_panel")).addClass("hidden");
                     showPage1();
                     page_num = 1;
                     break;
                 case 3:
-                    save3();
+                    //save3();
+                    $("#page3").detach().insertAfter($("#secret_panel")).addClass("hidden");
                     showPage2();
                     page_num = 2;
                     break;
             }
         }
 
-        function submit() {
+        function goober() {
 
         }
     </script>
