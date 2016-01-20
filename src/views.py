@@ -1,6 +1,6 @@
 from flask import request, render_template, redirect, url_for, session
 from src import app
-from forms import SignUpForm, LoginForm, RecoveryForm
+from forms import SignUpForm, LoginForm, RecoveryForm, AdvancedSearchForm
 from functools import wraps
 from sessions import verify_session, create_session, destroy_session, set_session_next, get_session_next, \
                      delete_session_next
@@ -30,6 +30,14 @@ def work(wid):
 @app.route("/search", methods=["GET", "POST"])
 def search():
     return render_template("search.html")
+
+
+@app.route("/advanced-search", methods=["GET", "POST"])
+def advanced_search():
+    form = AdvancedSearchForm()
+    if form.validate_on_submit():
+        return "test"
+    return render_template("advanced_search.html", form=form)
 
 
 @app.route("/sign_up", methods=["GET", "POST"])
@@ -72,7 +80,7 @@ def tos():
 def password_reset():
     form = RecoveryForm()
     if form.validate_on_submit():
-        return "dicks"
+        return "test"
     return render_template("password_reset.html", form=form)
 
 

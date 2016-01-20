@@ -21,3 +21,12 @@ class LoginForm(Form):
 class RecoveryForm(Form):
     email = StringField("Email", validators=[DataRequired()])
 
+
+class AdvancedSearchForm(Form):
+    vendor_name = StringField("Vendor_name")
+    piece_name = StringField("Piece_name")
+    medium = StringField("Medium")
+    price_low = StringField("Price_low")
+    price_high = StringField("Price_high")
+    width = StringField("Width")
+    height = StringField("Height")
