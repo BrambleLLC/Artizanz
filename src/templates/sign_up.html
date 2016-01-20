@@ -108,71 +108,20 @@
 {% block navbar_selector %}
     <script type="text/javascript">
         var page_num = 1;
-        /*
-        var skeleman = {
-            username: "",
-            email: "",
-            password: "",
-            confirm_password: "",
-            address_line1: "",
-            address_line2: "",
-            city: "",
-            state: "",
-            zip: "",
-            country: "",
-            phone_number: ""
-        };
-        */
         $(document).ready(function () {
             $("#sign_up").addClass("active");
             showPage1();
         });
 
-        /*
-        function save1() {
-            skeleman.username = $("#username").val();
-            skeleman.email = $("#email").val();
-            skeleman.password = $("#password").val();
-            skeleman.confirm_password = $("#confirm_password").val();
-        }
-
-        function save2() {
-            skeleman.address_line1 = $("#address_line1").val();
-            skeleman.address_line2 = $("#address_line2").val();
-            skeleman.city = $("#city").val();
-            skeleman.state = $("#state").val();
-            skeleman.country = $("#country").val();
-            skeleman.phone_number = $("#phone_number").val();
-        }
-
-        function save3() {
-
-        }
-        */
-
         function showPage1() {
             $("#page1").detach().appendTo($("#secret_panel")).removeClass("hidden");
             $("#username").focus();
-            /*
-            $("#username").val(skeleman.username).focus();
-            $("#email").val(skeleman.email);
-            $("#password").val(skeleman.password);
-            $("#confirm_password").val(skeleman.confirm_password);
-            */
             $("#page_num").html("Part 1 of 3.");
         }
 
         function showPage2() {
             $("#page2").appendTo($("#secret_panel")).removeClass("hidden");
             $("#address_line1").focus();
-            /*
-            $("#address_line1").val(skeleman.address_line1).focus();
-            $("#address_line2").val(skeleman.address_line2);
-            $("#city").val(skeleman.city);
-            $("#state").val(skeleman.state);
-            $("#country").val(skeleman.country);
-            $("#phone_number").val(skeleman.phone_number);
-            */
             $("#page_num").html("Part 2 of 3.");
         }
 
@@ -184,13 +133,11 @@
         function moveForward() {
             switch (page_num) {
                 case 1:
-                    //save1();
                     $("#page1").detach().insertAfter($("#secret_panel")).addClass("hidden");
                     showPage2();
                     page_num = 2;
                     break;
                 case 2:
-                    //save2();
                     $("#page2").detach().insertAfter($("#secret_panel")).addClass("hidden");
                     showPage3();
                     page_num = 3;
@@ -201,13 +148,11 @@
         function moveBackward() {
             switch (page_num) {
                 case 2:
-                    //save2();
                     $("#page2").detach().insertAfter($("#secret_panel")).addClass("hidden");
                     showPage1();
                     page_num = 1;
                     break;
                 case 3:
-                    //save3();
                     $("#page3").detach().insertAfter($("#secret_panel")).addClass("hidden");
                     showPage2();
                     page_num = 2;
