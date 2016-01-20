@@ -15,28 +15,72 @@
     <!-- register -->
     <div class="col-lg-4 col-md-4 col-centered">
         <div class="panel panel-default">
-            <div class="panel-body">
-                <form action="/sign_up" method="post">
-                    {{ form.csrf_token }}
-                    <div class="form-group">
-                        {{ form.username(class="form-control", placeholder="Username", autofocus="autofocus", rows=1) }}
+            <div class="panel-body" id="secret_panel">
+
+            </div>
+            <div class="hidden" id="page1">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="username" placeholder="Username" autofocus="autofocus" >
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="email" placeholder="Email" >
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" placeholder="Password" >
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" >
+                </div>
+                <button class="btn btn-block btn-primary" onclick="moveForward()"> Next </button>
+            </div>
+            <div class="hidden" id="page2">
+                <div class="form-group">
+                    <input class="form-control" type="text" id="address_line1" placeholder="Address Line 1" autofocus="autofocus">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="address_line2" placeholder="Address Line 2">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="city" placeholder="City">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="state" placeholder="State">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="zip" placeholder="Zip Code">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="country" placeholder="Country">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="phone_number" placeholder="Phone Number">
+                </div>
+                <div class="row">
+                   <div class="col-xs-6">
+                       <button class="btn btn-block btn-primary" onclick="moveBackward()"> Previous </button>
+                   </div>
+                    <div class="col-xs-6">
+                        <button class="btn btn-block btn-primary" onclick="moveForward()"> Next </button>
                     </div>
-                    <div class="form-group">
-                        {{ form.email(class="form-control", placeholder="E-mail Address", rows=1) }}
+                </div>
+            </div>
+            <div class="hidden" id="page3">
+                <div class="form-group">
+                    <input class="form-control" type="text" autofocus="autofocus" placeholder="Dicks">
+                </div>
+                <div class="row">
+                   <div class="col-xs-6">
+                       <button class="btn btn-block btn-primary" onclick="moveBackward()"> Previous </button>
+                   </div>
+                    <div class="col-xs-6">
+                        <button class="btn btn-block btn-primary" onclick="submit()"> Submit </button>
                     </div>
-                    <div class="form-group">
-                        {{ form.password(class="form-control", placeholder="Password", rows=1) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.confirm_password(class="form-control", placeholder="Confirm Password", rows=1) }}
-                    </div>
-                    <button type="submit" class="btn btn-lg btn-block btn-primary"> Next </button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<p class="text-center">
+<p id="page_num" class="text-center">
     Part 1 of 3.
 </p>
 <div class="row">
@@ -54,8 +98,102 @@
 
 {% block navbar_selector %}
     <script type="text/javascript">
+        var page_num = 1;
+        var skeleman = {
+            username: "",
+            email: "",
+            password: "",
+            confirm_password: "",
+            address_line1: "",
+            address_line2: "",
+            city: "",
+            state: "",
+            zip: "",
+            country: "",
+            phone_number: ""
+        };
         $(document).ready(function () {
             $("#sign_up").addClass("active");
+            showPage1();
         });
+
+        function save1() {
+            skeleman.username = $("#username").val();
+            skeleman.email = $("#email").val();
+            skeleman.password = $("#password").val();
+            skeleman.confirm_password = $("#confirm_password").val();
+        }
+
+        function save2() {
+            skeleman.address_line1 = $("#address_line1").val();
+            skeleman.address_line2 = $("#address_line2").val();
+            skeleman.city = $("#city").val();
+            skeleman.state = $("#state").val();
+            skeleman.country = $("#country").val();
+            skeleman.phone_number = $("#phone_number").val();
+        }
+
+        function save3() {
+
+        }
+
+        function showPage1() {
+            $("#secret_panel").html($("#page1").html());
+            $("#username").val(skeleman.username).focus();
+            $("#email").val(skeleman.email);
+            $("#password").val(skeleman.password);
+            $("#confirm_password").val(skeleman.confirm_password);
+            $("#page_num").html("Part 1 of 3.");
+        }
+
+        function showPage2() {
+            $("#secret_panel").html($("#page2").html());
+            $("#address_line1").val(skeleman.address_line1).focus();
+            $("#address_line2").val(skeleman.address_line2);
+            $("#city").val(skeleman.city);
+            $("#state").val(skeleman.state);
+            $("#country").val(skeleman.country);
+            $("#phone_number").val(skeleman.phone_number);
+            $("#page_num").html("Part 2 of 3.");
+        }
+
+        function showPage3() {
+            $("#secret_panel").html($("#page3").html());
+            $("#page_num").html("Part 3 of 3.");
+        }
+
+        function moveForward() {
+            switch (page_num) {
+                case 1:
+                    save1();
+                    showPage2();
+                    page_num = 2;
+                    break;
+                case 2:
+                    save2();
+                    showPage3();
+                    page_num = 3;
+                    break;
+            }
+        }
+
+        function moveBackward() {
+            switch (page_num) {
+                case 2:
+                    save2();
+                    showPage1();
+                    page_num = 1;
+                    break;
+                case 3:
+                    save3();
+                    showPage2();
+                    page_num = 2;
+                    break;
+            }
+        }
+
+        function submit() {
+
+        }
     </script>
 {% endblock %}
