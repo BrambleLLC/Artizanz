@@ -2,45 +2,46 @@
 
 {% block content %}
 <!--suppress HtmlUnknownTarget -->
-<div class="container">
 
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-lg-4 col-md-4 col-centered">
-            <h2 class="page-header">Register</h2>
-        </div>
+<!-- Page Header -->
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-centered">
+        <h2 class="page-header">Register</h2>
     </div>
+</div>
 
-    <!-- Projects Row -->
-    <div class="row">
-        <!-- register -->
-        <div class="col-lg-4 col-md-4 col-centered">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <form action="/sign_up" method="post">
-                        {{ form.csrf_token }}
-                        <div class="form-group">
-                            {{ form.username(class="form-control", placeholder="Username", autofocus="autofocus", rows=1) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.email(class="form-control", placeholder="E-mail Address", rows=1) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.password(class="form-control", placeholder="Password", rows=1) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.confirm_password(class="form-control", placeholder="Confirm Password", rows=1) }}
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-block btn-primary"> Next </button>
-                    </form>
-                </div>
+<!-- Projects Row -->
+<div class="row">
+    <!-- register -->
+    <div class="col-lg-4 col-md-4 col-centered">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form action="/sign_up" method="post">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        {{ form.username(class="form-control", placeholder="Username", autofocus="autofocus", rows=1) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email(class="form-control", placeholder="E-mail Address", rows=1) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password(class="form-control", placeholder="Password", rows=1) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.confirm_password(class="form-control", placeholder="Confirm Password", rows=1) }}
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-block btn-primary"> Next </button>
+                </form>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-centered">
-            <hr>
-        </div>
+</div>
+<p class="text-center">
+    Part 1 of 3.
+</p>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-centered">
+        <hr>
     </div>
 </div>
 
