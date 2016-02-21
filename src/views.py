@@ -118,7 +118,7 @@ def login():
         user = collection.User.find_one({"$or": [{"username": username}, {"email": username}]})
         if user and user.verify_password(password):
             session.permanent = form.data.get("remember_me")
-            create_session(username)
+            create_session(user["username"])
             next_url = get_session_next()
             delete_session_next()
             return redirect(next_url)
