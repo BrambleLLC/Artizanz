@@ -15,8 +15,7 @@
 <div class="row">
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -27,8 +26,7 @@
     </div>
     <div class="col-lg-5 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -44,8 +42,7 @@
 <div class="row">
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -56,8 +53,7 @@
     </div>
     <div class="col-lg-5 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -73,8 +69,7 @@
 <div class="row">
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -85,8 +80,7 @@
     </div>
     <div class="col-lg-5 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -102,8 +96,7 @@
 <div class="row">
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -114,8 +107,7 @@
     </div>
     <div class="col-lg-5 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -131,8 +123,7 @@
 <div class="row">
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -143,8 +134,7 @@
     </div>
     <div class="col-lg-5 col-md-6 portfolio-item">
         <a href="#">
-            <img src="static/test_art.jpg"
-                 style="width:460px;height:300px;" alt="">
+            <img class="img img-responsive" src="static/test_art.jpg" alt="">
         </a>
         <hr>
         <h3>
@@ -186,6 +176,41 @@
         </ul>
     </div>
 </div>
-<hr>
+
+<div class="foot">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <hr>
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-lg-offset-5 col-md-offset-5 col-sm-offset-5 col-xs-offset-5">
+                    <div class="row text-center">
+                        <a href="http://www.fb.com" >
+                        <img src="{{ url_for("static", filename="facebook-128.png") }}" alt="Facebook"
+                            style="width:32px;height:32px">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                     <div class="row text-center">
+                        <a href="http://www.twitter.com">
+                        <img src="{{ url_for("static", filename="twitter-128.png") }}" alt="Twitter"
+                            style="width:32px;height:32px">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <div class="row text-center">
+                <p>
+                    <a href="/faq">Frequently Asked Questions</a> |
+                    <a href="/tos">Terms of Service</a>
+                </p>
+            </div>
+            <div class="row">
+                <p class="text-center">Copyright © 2016 Artizanz</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
