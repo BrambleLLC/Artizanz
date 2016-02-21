@@ -1,42 +1,65 @@
-from __init__ import db
+from mongokit import Document
+from __init__ import connection
+import datetime
 
 
-class User(db.Model):
-    __tablename__ = "user"
-    ROLE_ADMIN = 0
-    ROLE_USER = 1
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Unicode(64), index=True)
-    email = db.Column(db.Unicode(64), index=True)
-    password_hash = db.Column(db.Unicode(120))
-    address_1 = db.Column(db.Unicode(120))
-    address_2 = db.Column(db.Unicode(120))
-    city = db.Column(db.Unicode(30))
-    state = db.Column(db.Unicode(30))
-    country = db.Column(db.Unicode(30))
-    zipcode = db.Column(db.Unicode(12))
-    phone_number = db.Column(db.Unicode(10))
-    role = db.Column(db.Integer, default=ROLE_USER)
-    postings = db.relationship("Posting", backref="user")
+@connection.register
+class User(Document):
+    structure = {
+        "username": unicode,
+        "password_hash": unicode,
+        "email": unicode,
+        "address1": unicode,
+        "address2": unicode,
+        "city": unicode,
+        "state": unicode,
+        "country": unicode,
+        "zipcode": unicode,
+        "phone_number": unicode,
+        "registration_date": datetime.datetime,
+        "postings": list,
+        "bids": list
+    }
+    gridfs = {
+        "files": ["profile_picture"]
+    }
+    required_fields = ["username", "password_hash", "email", "address1", "city", "state", "country", "zipcode",
+                       "phone_number", "registration_date"]
+    default_values = {"registration_date": datetime.datetime.utcnow()}
 
 
-class Posting(db.Model):
-    __tablename__ = "posting"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Unicode(64), index=True)
-    description = db.Column(db.UnicodeText(1600))
-    price = db.Column(db.Integer, default=100)
-    user_id = db.ForeignKey("user.id", index=True)
+@connection.register
+class Posting(Document):
+    structure = {
+        "posting_id": unicode,
+        "title": unicode,
+        "description": unicode,
+        "price_dollars": int,
+        "price_cents": int,
+        "start_time": datetime.datetime,
+        "end_time": datetime.datetime,
+        "bids": list,
+        "tags": list
+    }
+    required_fields = ["title", "description", "price_dollars", "price_cents", "start_time", "end_time"]
+    default_values = {"start_time": datetime.datetime.utcnow()}
 
-"""
-class Bid(db.Model):
-    __tablename__ = "bid"
+
+@connection.register
+class Bid(Document):
+    structure = {
+        "bid_id": int,
+        "bid_amount_dollars": int,
+        "bid_amount_cents": int,
+        "user_id": unicode
+    }
+    required_fields = ["bid_id", "bid_amount_dollars", "bid_amount_cents", "user_id"]
 
 
-class PrivateMessage(db.Model):
-    __tablename__ = "message"
-
-
-class Transaction(db.Model):
-    __tablename__ = "transaction"
-"""
+@connection.register
+class Tag(Document):
+    structure = {
+        "tag_id": unicode,
+        "postings": list
+    }
+    required_fields = ["tag_id"]
