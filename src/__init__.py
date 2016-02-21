@@ -6,6 +6,7 @@ import config
 app = Flask(__name__)
 app.config.from_object(config)
 connection = Connection(host="artizanz.com", port=27017)
+collection = connection["artizanz"].art
 
-from views import *
 from models import *
+from views import *

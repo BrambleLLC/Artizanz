@@ -1,6 +1,7 @@
 from mongokit import Document
 from __init__ import connection
 import datetime
+from passlib.hash import bcrypt
 
 
 @connection.register
@@ -26,6 +27,12 @@ class User(Document):
     required_fields = ["username", "password_hash", "email", "address1", "city", "state", "country", "zipcode",
                        "phone_number", "registration_date"]
     default_values = {"registration_date": datetime.datetime.utcnow()}
+
+    def set_password(self, password):
+        self["password_hash"] = unicode(bcrypt.encrypt(password))
+
+    def verify_password(self, check_password):
+        return bcrypt.verify(check_password, self["password_hash"])
 
 
 @connection.register
