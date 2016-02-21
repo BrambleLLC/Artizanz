@@ -68,7 +68,7 @@ def sign_up():
         profile_picture_file = request.files.get("profile_picture")
         profile_picture_crop_options = request.form.get("profile_picture_crop_options")
 
-        if collection.find(projection={"$or": [{"username": username}, {"email": email}]}):
+        if collection.find(projection={"$or": [{"username": username}, {"email": email}]}).count():
             return "correct error condition"
 
         user = collection.User()
@@ -113,11 +113,17 @@ def login():
         return redirect(next_url)
     form = LoginForm()
     if form.validate_on_submit():
-        session.permanent = form.data.get("remember_me")
-        create_session(request.form["username"])
-        next_url = get_session_next()
-        delete_session_next()
-        return redirect(next_url)
+        username = request.form["username"]
+        password = request.form["password"]
+        user = collection.User.find_one({"$or": [{"username": username}, {"email": username}]})
+        if user and user.verify_password(password):
+            session.permanent = form.data.get("remember_me")
+            create_session(username)
+            next_url = get_session_next()
+            delete_session_next()
+            return redirect(next_url)
+        else:
+            return "error"
     return render_template("login.html", form=form)
 
 
