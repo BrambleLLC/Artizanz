@@ -1,8 +1,30 @@
-.col-centered{
-    float: none;
-    margin: 0 auto;
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
 }
 .img-container {
     position:relative;
     padding-top:100%;
+}
+
+.foot {
+    position: relative;
+    width: 100%;
+    padding: 15px 0;
+}
+
+.snug-bottom {
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    width: 100%;
+    padding: 15px 0;
 }
