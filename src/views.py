@@ -51,6 +51,8 @@ def advanced_search():
 @app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
     form = SignUpForm()
+    errors = False
+    error_messages = set()
     if form.validate_on_submit():
         username = request.form["username"]
         email = request.form["email"]
@@ -68,41 +70,57 @@ def sign_up():
         profile_picture_file = request.files.get("profile_picture")
         profile_picture_crop_options = request.form.get("profile_picture_crop_options")
 
-        if collection.find(projection={"$or": [{"username": username}, {"email": email}]}).count():
-            return "correct error condition"
+        query_results = collection.User.find(projection={"$or": [{"username": username}, {"email": email}]})
+        if query_results.count():
+            for result in query_results:
+                if result["username"] == username:
+                    errors = True
+                    error_messages.add("Username already in use")
+                if result["email"] == email:
+                    errors = True
+                    error_messages.add("Email already in use")
 
-        user = collection.User()
-        user["username"] = username
-        user.set_password(password)
-        user["email"] = email
-        user["address1"] = address_1
-        user["address2"] = address_2 if address_2 else u""
-        user["city"] = city
-        user["state"] = state
-        user["zipcode"] = zip_code
-        user["country"] = country
-        user["phone_number"] = phone_number if phone_number else u""
-        user.save()
-        if profile_picture_file and profile_picture_crop_options:
-            options = json.loads(profile_picture_crop_options)
-            image = Image.open(profile_picture_file)
-            s_io = StringIO()
-            x = int(options["x"] / options["scale"])
-            y = int(options["y"] / options["scale"])
-            image = image.crop((x, y, int(x + 250 / options["scale"]), int(y + 250 / options["scale"])))
-            image = image.resize((250, 250), Image.ANTIALIAS)
-            image.save(s_io, format="JPEG", quality=90)
-            im_data = s_io.getvalue()
-            data_url = "data:image/jpg;base64," + base64.b64encode(im_data)
-            user.fs.profile_picture = data_url
+        if not errors:
+            user = collection.User()
+            user["username"] = username
+            user.set_password(password)
+            user["email"] = email
+            user["address1"] = address_1
+            user["address2"] = address_2 if address_2 else u""
+            user["city"] = city
+            user["state"] = state
+            user["zipcode"] = zip_code
+            user["country"] = country
+            user["phone_number"] = phone_number if phone_number else u""
             user.save()
-            return """
-                    <img src="{}" />
-                   """.format(user.fs.profile_picture)
-        else:
-            return "hoober"
+            if profile_picture_file and profile_picture_crop_options:
+                options = json.loads(profile_picture_crop_options)
+                image = Image.open(profile_picture_file)
+                s_io = StringIO()
+                x = int(options["x"] / options["scale"])
+                y = int(options["y"] / options["scale"])
+                image = image.crop((x, y, int(x + 250 / options["scale"]), int(y + 250 / options["scale"])))
+                image = image.resize((250, 250), Image.ANTIALIAS)
+                image.save(s_io, format="JPEG", quality=90)
+                im_data = s_io.getvalue()
+                data_url = "data:image/jpg;base64," + base64.b64encode(im_data)
+                user.fs.profile_picture = data_url
+                user.save()
+                return redirect("")
+    elif request.method != "GET":
+        errors = True
+        username = request.form.get("username")
+        email = request.form.get("email")
+        query_results = collection.User.find(projection={"$or": [{"username": username}, {"email": email}]})
+        if query_results.count():
+            for result in query_results:
+                if result["username"] == username:
+                    error_messages.add("Username already in use")
+                if result["email"] == email:
+                    error_messages.add("Email already in use")
+        error_messages.add("Please complete all non-optional fields")
 
-    return render_template("sign_up.html", form=form)
+    return render_template("sign_up.html", form=form, errors=errors, error_messages=error_messages)
 
 
 @app.route("/login", methods=["GET", "POST"])
