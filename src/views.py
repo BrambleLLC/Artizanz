@@ -49,7 +49,10 @@ def advanced_search():
 def sign_up():
     form = SignUpForm()
     if form.validate_on_submit():
-        return request.form["username"] + " " + request.form["email"] + " " + request.form["password"]
+        s = ""
+        for field_name, field_val in request.form.iteritems():
+            s += field_name + ": " + field_val + "<br />"
+        return s
     return render_template("sign_up.html", form=form)
 
 

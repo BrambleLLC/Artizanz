@@ -94,6 +94,7 @@
                                 {{ form.profile_picture(class="form-control", onchange="setImage(this)") }}
                                 <span class="input-group-addon btn-default" id="upload_button" onclick="uploadImage()">Upload</span>
                             </div>
+                            {{ form.profile_picture_crop_options }}
                         </div>
                     </div>
                     <div class="row">
@@ -194,7 +195,8 @@
         }
 
         function submitRegistration() {
-
+            var s = JSON.stringify($("#avatar").guillotine("getData"));
+            $("#profile_picture_crop_options").val(s);
         }
 
         function uploadImage() {
