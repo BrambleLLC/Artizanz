@@ -29,7 +29,7 @@ class User(Document):
     default_values = {"registration_date": datetime.datetime.utcnow()}
 
     def set_password(self, password):
-        self["password_hash"] = unicode(bcrypt.encrypt(password))
+        self["password_hash"] = unicode(bcrypt.encrypt(password, rounds=13))
 
     def verify_password(self, check_password):
         return bcrypt.verify(check_password, self["password_hash"])
