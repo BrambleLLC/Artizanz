@@ -112,6 +112,8 @@ def login():
         delete_session_next()
         return redirect(next_url)
     form = LoginForm()
+    error = False
+    error_message = None
     if form.validate_on_submit():
         username = request.form["username"]
         password = request.form["password"]
@@ -123,8 +125,9 @@ def login():
             delete_session_next()
             return redirect(next_url)
         else:
-            return "error"
-    return render_template("login.html", form=form)
+            error = True
+            error_message = "Invalid Username or Password"
+    return render_template("login.html", form=form, error=error, error_message=error_message)
 
 
 @app.route("/logout", methods=["GET", "POST"])
