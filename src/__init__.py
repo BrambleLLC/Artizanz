@@ -5,7 +5,7 @@ import config
 
 app = Flask(__name__)
 app.config.from_object(config)
-connection = Connection(host="localhost", port=27017)
+connection = Connection(host="artizanz.com", port=27017)
 
 from views import *
 from models import *
