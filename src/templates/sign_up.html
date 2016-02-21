@@ -69,10 +69,29 @@
                 <div class="hidden" id="page3">
                     <div class="form-group">
                         <div class="text-center">
-                            <img src="//placehold.it/250" class="avatar img" alt="avatar" id="avatar">
+                            <div id="theparent">
+                                <img src="//placehold.it/250" class="avatar img" alt="avatar" id="avatar">
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-default" type="button" id="rotate_left" onclick="$('#avatar').guillotine('rotateLeft')">
+                                    <i class="fa fa-rotate-left"></i>
+                                </button>
+                                <button class="btn btn-default" type="button" id="zoom_out" onclick="$('#avatar').guillotine('zoomOut')">
+                                    <i class="fa fa-search-minus"></i>
+                                </button>
+                                <button class="btn btn-default" type="button" id="fit" onclick="$('#avatar').guillotine('fit')">
+                                    <i class="fa fa-arrows-alt"></i>
+                                </button>
+                                <button class="btn btn-default" type="button" id="zoom_in" onclick="$('#avatar').guillotine('zoomIn')">
+                                    <i class="fa fa-search-plus"></i>
+                                </button>
+                                <button class="btn btn-default" type="button" id="rotate_right" onclick="$('#avatar').guillotine('rotateRight')">
+                                    <i class="fa fa-rotate-right"></i>
+                                </button>
+                            </div>
                             <h6>Upload Profile Picture (Optional)</h6>
                             <div class="input-group">
-                                {{ form.profile_picture(class="form-control") }}
+                                {{ form.profile_picture(class="form-control", onchange="setImage(this)") }}
                                 <span class="input-group-addon btn-default" id="upload_button" onclick="uploadImage()">Upload</span>
                             </div>
                         </div>
@@ -98,10 +117,11 @@
 {% endblock %}
 
 {% block navbar_selector %}
+    <script type="text/javascript" src="{{ url_for("static", filename="js/jquery.guillotine.min.js") }}"></script>
     <script type="text/javascript">
         var page_num = 1;
         var file = null;
-        var temp_path = "placehold.it/250";
+
         $(document).ready(function () {
             $("#sign_up").addClass("active");
             document.onkeydown = function () {
@@ -111,9 +131,15 @@
             };
             showPage1();
         });
-        $("#profile_picture").change(function (e) {
-           file = e.target.files[0];
-        });
+
+        function setImage(input) {
+            if (input.files && input.files[0]) {
+                file = input.files[0];
+            }
+            else {
+                file = null;
+            }
+        }
 
         function showPage1() {
             $("#page1").detach().appendTo($("#secret_panel")).removeClass("hidden");
@@ -130,6 +156,8 @@
         function showPage3() {
             $("#page3").appendTo($("#secret_panel")).removeClass("hidden");
             $("#page_num").html("Part 3 of 3.");
+            var picture = $("#avatar");
+            picture.guillotine({ width:250, height:250 });
         }
 
         function moveForward() {
@@ -170,13 +198,14 @@
         }
 
         function uploadImage() {
-            if (file === null) {
-                $(".avatar").attr("src", "placeholder.it./250")
-            }
-            else {
-                temp_path = URL.createObjectURL(file);
-                $(".avatar").attr("src", temp_path);
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#avatar").attr("src", e.target.result);
+                };
+                reader.readAsDataURL(file);
             }
         }
+
     </script>
 {% endblock %}
