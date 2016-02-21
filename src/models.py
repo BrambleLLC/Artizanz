@@ -1,70 +1,63 @@
-from __init__ import db
-
-thread_table = db.Table("threads",
-                        db.Column("user_id", db.Integer, db.ForeignKey("user.id")),
-                        db.Column("thread_id", db.Integer, db.ForeignKey("message_thread.id")))
-
-tag_table = db.Table("tags",
-                     db.Column("tag_id", db.Integer, db.ForeignKey("tag.id")),
-                     db.Column("posting_id", db.Integer, db.ForeignKey("posting.id")))
+from mongokit import Document
+from __init__ import connection
+import datetime
 
 
-class User(db.Model):
-    __tablename__ = "user"
-    ROLE_ADMIN = 0
-    ROLE_USER = 1
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Unicode(64), index=True)
-    email = db.Column(db.Unicode(64), index=True)
-    password_hash = db.Column(db.Unicode(120))
-    address_1 = db.Column(db.Unicode(120))
-    address_2 = db.Column(db.Unicode(120))
-    city = db.Column(db.Unicode(30))
-    state = db.Column(db.Unicode(30))
-    country = db.Column(db.Unicode(30))
-    zipcode = db.Column(db.Unicode(12))
-    phone_number = db.Column(db.Unicode(10))
-    role = db.Column(db.Integer, default=ROLE_USER)
-    postings = db.relationship("Posting", backref="user", lazy="dynamic", cascade="all, delete-orphan")
-    bids = db.relationship("Bid", backref="user", lazy="dynamic", cascade="all, delete-orphan")
+@connection.register
+class User(Document):
+    structure = {
+        "name": unicode,
+        "password_hash": unicode,
+        "email": unicode,
+        "address1": unicode,
+        "address2": unicode,
+        "city": unicode,
+        "state": unicode,
+        "country": unicode,
+        "zipcode": unicode,
+        "phone_number": unicode,
+        "registration_date": datetime.datetime,
+        "postings": list,
+        "bids": list
+    }
+
+    required_fields = ["name", "password_hash", "email", "address1", "address2", "city", "state", "country", "zipcode",
+                       "phone_number", "registration_date"]
+    default_values = {"registration_date": datetime.datetime.utcnow()}
 
 
-class Posting(db.Model):
-    __tablename__ = "posting"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Unicode(64), index=True)
-    description = db.Column(db.UnicodeText(1600))
-    price = db.Column(db.Integer, default=100)
-    start_time = db.Column(db.DateTime)
-    end_time = db.Column(db.DateTime, index=True)
-    user_id = db.ForeignKey("user.id", index=True)
-    bids = db.relationship("Bid", backref="posting", lazy="dynamic", cascade="all, delete-orphan")
-    tags = db.relationship("Tag", secondary=tag_table, backref="postings", lazy="dynamic")
+@connection.register
+class Posting(Document):
+    structure = {
+        "posting_id": unicode,
+        "title": unicode,
+        "description": unicode,
+        "price_dollars": int,
+        "price_cents": int,
+        "start_time": datetime.datetime,
+        "end_time": datetime.datetime,
+        "bids": list,
+        "tags": list
+    }
+    required_fields = ["title", "description", "price_dollars", "price_cents", "start_time", "end_time"]
+    default_values = {"start_time": datetime.datetime.utcnow()}
 
 
-class Bid(db.Model):
-    __tablename__ = "bid"
-    id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.Numeric(precision=20, scale=2))
-    user_id = db.ForeignKey("user.id", index=True)
-    posting_id = db.ForeignKey("posting.id", index=True)
+@connection.register
+class Bid(Document):
+    structure = {
+        "bid_id": int,
+        "bid_amount_dollars": int,
+        "bid_amount_cents": int,
+        "user_id": unicode
+    }
+    required_fields = ["bid_id", "bid_amount_dollars", "bid_amount_cents", "user_id"]
 
 
-class PrivateMessageThread(db.Model):
-    __tablename__ = "message_thread"
-    id = db.Column(db.Integer, primary_key=True)
-    messages = db.relationship("PrivateMessage", backref="thread", lazy="dynamic", cascade="all, delete-orphan")
-    users = db.relationship("User", secondary=thread_table, backref="private_message_threads", lazy="dynamic")
-
-
-class PrivateMessage(db.Model):
-    __tablename__ = "message"
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.UnicodeText)
-    sent_datetime = db.Column(db.DateTime)
-
-
-class Tag(db.Model):
-    __tablename__ = "tag"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(32), unique=True)
+@connection.register
+class Tag(Document):
+    structure = {
+        "tag_id": unicode,
+        "postings": list
+    }
+    required_fields = ["tag_id"]
