@@ -11,9 +11,10 @@ class SignUpForm(Form):
     address_1 = StringField("Address Line 1", validators=[DataRequired()])
     address_2 = StringField("Address Line 2")
     city = StringField("City", validators=[DataRequired()])
-    state = StringField("State", validators=[DataRequired])
+    state = StringField("State", validators=[DataRequired()])
+    zip = StringField("Zip Code", validators=[DataRequired()])
     country = StringField("Country", validators=[DataRequired()])
-    phone_number = StringField("Phone Number", validators=[DataRequired])
+    phone_number = StringField("Phone Number")
     profile_picture = FileField("Profile Picture")
 
 
