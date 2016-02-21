@@ -6,7 +6,7 @@ import datetime
 @connection.register
 class User(Document):
     structure = {
-        "name": unicode,
+        "username": unicode,
         "password_hash": unicode,
         "email": unicode,
         "address1": unicode,
@@ -20,8 +20,10 @@ class User(Document):
         "postings": list,
         "bids": list
     }
-
-    required_fields = ["name", "password_hash", "email", "address1", "address2", "city", "state", "country", "zipcode",
+    gridfs = {
+        "files": ["profile_picture"]
+    }
+    required_fields = ["username", "password_hash", "email", "address1", "city", "state", "country", "zipcode",
                        "phone_number", "registration_date"]
     default_values = {"registration_date": datetime.datetime.utcnow()}
 
