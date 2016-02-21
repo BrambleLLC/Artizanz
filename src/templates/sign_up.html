@@ -69,11 +69,11 @@
                 <div class="hidden" id="page3">
                     <div class="form-group">
                         <div class="text-center">
-                            <img src="//placehold.it/250" class="avatar img" alt="avatar">
+                            <img src="//placehold.it/250" class="avatar img" alt="avatar" id="avatar">
                             <h6>Upload Profile Picture (Optional)</h6>
                             <div class="input-group">
-                                <input type="file" class="form-control" autofocus="autofocus">
-                                <span class="input-group-addon btn-default" id="upload_button">Upload</span>
+                                {{ form.profile_picture(class="form-control") }}
+                                <span class="input-group-addon btn-default" id="upload_button" onclick="uploadImage()">Upload</span>
                             </div>
                         </div>
                     </div>
@@ -100,6 +100,8 @@
 {% block navbar_selector %}
     <script type="text/javascript">
         var page_num = 1;
+        var file = null;
+        var temp_path = "placehold.it/250";
         $(document).ready(function () {
             $("#sign_up").addClass("active");
             document.onkeydown = function () {
@@ -108,6 +110,9 @@
               }
             };
             showPage1();
+        });
+        $("#profile_picture").change(function (e) {
+           file = e.target.files[0];
         });
 
         function showPage1() {
@@ -162,6 +167,16 @@
 
         function submitRegistration() {
 
+        }
+
+        function uploadImage() {
+            if (file === null) {
+                $(".avatar").attr("src", "placeholder.it./250")
+            }
+            else {
+                temp_path = URL.createObjectURL(file);
+                $(".avatar").attr("src", temp_path);
+            }
         }
     </script>
 {% endblock %}
