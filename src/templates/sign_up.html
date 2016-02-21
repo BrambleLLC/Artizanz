@@ -102,6 +102,11 @@
         var page_num = 1;
         $(document).ready(function () {
             $("#sign_up").addClass("active");
+            document.onkeydown = function () {
+              if (window.event.keyCode == 13) {
+                  moveForward();
+              }
+            };
             showPage1();
         });
 
@@ -133,6 +138,9 @@
                     $("#page2").detach().insertAfter($("#secret_panel")).addClass("hidden");
                     showPage3();
                     page_num = 3;
+                    break;
+                case 3:
+                    submitRegistration();
                     break;
             }
         }
