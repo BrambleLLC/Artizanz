@@ -1,11 +1,11 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
+from mongokit import Connection
 import config
+
 
 app = Flask(__name__)
 app.config.from_object(config)
-db = SQLAlchemy(app)
+connection = Connection(host="localhost", port=27017)
 
 from views import *
 from models import *
-db.create_all()
