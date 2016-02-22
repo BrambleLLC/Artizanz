@@ -8,6 +8,11 @@ from PIL import Image
 from cStringIO import StringIO
 from __init__ import collection
 import base64
+import re
+
+password_regex = "$[a-zA-Z0-9!@#\$%\^&\*\-\+,\.\?]{8,}^"
+pattern = re.compile(password_regex)
+
 
 def login_required(f):
     @wraps(f)
@@ -19,6 +24,9 @@ def login_required(f):
             return redirect(url_for("login"))
     return wrapper
 
+
+def validate_password(password):
+    return True if pattern.match(password) else False
 
 @app.before_request
 def regenerate():
@@ -58,8 +66,6 @@ def sign_up():
         email = request.form["email"]
         password = request.form["password"]
         confirm_password = request.form["confirm_password"]
-        if password != confirm_password:
-            return render_template("sign_up.html", form=form)
         address_1 = request.form["address_1"]
         address_2 = request.form.get("address_2")
         city = request.form["city"]
@@ -79,6 +85,13 @@ def sign_up():
                 if result["email"] == email:
                     errors = True
                     error_messages.add("Email already in use")
+
+        if not validate_password(password):
+            errors = True
+            error_messages.add("Password must be at least 8 characters and must follow some arbitrary rules")
+        elif password != confirm_password:
+            errors = True
+            error_messages.add("Passwords do not match")
 
         if not errors:
             user = collection.User()
