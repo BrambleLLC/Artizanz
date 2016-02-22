@@ -16,7 +16,7 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-centered">
         <div class="panel panel-default">
             {% if errors %}
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" id="red_alert">
                     {% for error in error_messages %}
                         <p>
                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -25,7 +25,6 @@
                         </p>
                     {% endfor %}
                 </div>
-
             {% endif %}
             <form method="post" action="/sign_up" enctype="multipart/form-data">
                 <div class="panel-body" id="secret_panel">
@@ -128,6 +127,7 @@
     <script type="text/javascript">
         var page_num = 1;
         var file = null;
+        var regex = /$[a-zA-Z0-9!@#\$%\^&\*\-\+,\.\?]{8,}^/;
 
         $(document).ready(function () {
             $("#sign_up").addClass("active");
@@ -213,6 +213,10 @@
                 };
                 reader.readAsDataURL(file);
             }
+        }
+
+        function matchesPasswordFormat(pass) {
+            return regex.test(pass);
         }
 
     </script>
