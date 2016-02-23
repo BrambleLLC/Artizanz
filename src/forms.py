@@ -40,7 +40,7 @@ class AdvancedSearchForm(Form):
 
 
 class SellAnArtworkForm(Form):
-    piece_name = StringField("Piece name")
+    piece_name = StringField("Piece Name")
     medium = StringField("Medium", validators=[DataRequired()])
     width = StringField("Width", validators=[DataRequired()])
     height = StringField("Height", validators=[DataRequired()])

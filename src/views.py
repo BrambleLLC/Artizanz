@@ -9,6 +9,7 @@ from cStringIO import StringIO
 from __init__ import collection
 import base64
 import re
+import datetime
 
 password_regex = "^[a-zA-Z0-9!@#\$%\^&\*\-\+,\.\?]{8,}$"
 pattern = re.compile(password_regex)
@@ -49,7 +50,35 @@ def work(wid):
 def upload():
     form = SellAnArtworkForm()
     if form.validate_on_submit():
-        return "test"
+        piece_name = request.form.get("piece_name")
+        medium = request.form["medium"]
+        width = request.form["width"]
+        height = request.form["height"]
+        starting_bid = request.form["starting_bid"]
+        buy_now = request.form.get("buy_now")
+        artwork_description = request.form["artwork_description"]
+        artwork = collection.Artwork()
+        artwork["title"] = u"Untitled" if not piece_name else piece_name
+        artwork["mediums"] = medium.split(",")
+        artwork["width"] = float(width)
+        artwork["height"] = float(height)
+        starting_bid_fields = starting_bid.split(".")
+        artwork["bid_price_dollars"] = 0 if not starting_bid_fields[0] else int(starting_bid_fields[0])
+        artwork["bid_price_cents"] = 0 if len(starting_bid_fields) < 2 else int(starting_bid_fields[1])
+        buy_fields = buy_now.split(".")
+        artwork["buy_price_dollars"] = 0 if not buy_fields[0] else int(buy_fields[0])
+        artwork["buy_price_dollars"] = 0 if len(buy_fields) < 2 else int(buy_fields[1])
+        artwork["description"] = u"None" if not artwork_description else artwork_description
+        artwork["end_time"] = datetime.datetime.utcnow() + datetime.timedelta(days=7)
+        artwork.save()
+        s_io = StringIO()
+        artwork_picture = Image.open(request.files["artwork_picture"]).convert("RGB")
+        artwork_picture.save(s_io, format="JPEG", quality=90)
+        image_data = s_io.getvalue()
+        data_url = "data:image/jpg;base64," + base64.b64encode(image_data)
+        artwork.fs.artwork_picture = data_url
+        artwork.save()
+        return "<img src='{}' />".format(artwork.fs.artwork_picture)
     return render_template("upload.html", form=form)
 
 
@@ -125,6 +154,7 @@ def sign_up():
                 user.fs.profile_picture = data_url
                 user.save()
                 return redirect(url_for("login"))
+
     elif request.method != "GET":
         errors = True
         username = request.form.get("username")

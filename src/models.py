@@ -37,20 +37,27 @@ class User(Document):
 
 
 @connection.register
-class Posting(Document):
+class Artwork(Document):
     structure = {
-        "posting_id": unicode,
         "title": unicode,
+        "width": float,
+        "height": float,
         "description": unicode,
-        "price_dollars": int,
-        "price_cents": int,
+        "bid_price_dollars": int,
+        "bid_price_cents": int,
+        "buy_price_dollars": int,
+        "buy_price_cents": int,
         "start_time": datetime.datetime,
         "end_time": datetime.datetime,
         "bids": list,
-        "tags": list
+        "mediums": list,
+        "bought": bool
     }
-    required_fields = ["title", "description", "price_dollars", "price_cents", "start_time", "end_time"]
-    default_values = {"start_time": datetime.datetime.utcnow()}
+    gridfs = {
+        "files": ["artwork_picture"]
+    }
+    required_fields = ["bid_price_dollars", "bid_price_cents", "start_time", "end_time", "mediums"]
+    default_values = {"start_time": datetime.datetime.utcnow(), "bought": False}
 
 
 @connection.register
