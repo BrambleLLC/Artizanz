@@ -119,7 +119,7 @@ def sign_up():
                 data_url = "data:image/jpg;base64," + base64.b64encode(im_data)
                 user.fs.profile_picture = data_url
                 user.save()
-                return redirect("")
+                return redirect(url_for(login))
     elif request.method != "GET":
         errors = True
         username = request.form.get("username")
