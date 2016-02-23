@@ -19,6 +19,8 @@
             </div>
             {% endif %}
             <div class="panel-body">
+                <h2> Register </h2>
+                <hr>
                 <form method="post" action="/sign_up" enctype="multipart/form-data" id="#sign_up_form">
                     <div id="secret_panel"></div>
                     <div class="hidden" id="page1">
@@ -72,7 +74,7 @@
                         <div class="form-group">
                             <div class="text-center">
                                 <div id="theparent">
-                                    <img src="//placehold.it/250" class="avatar img img-thumbnail" alt="avatar" id="avatar">
+                                    <img src="static/default_profile_picture.jpg" class="avatar img img-thumbnail" alt="avatar" id="avatar">
                                 </div>
                                 <div class="btn-group" role="group">
                                     <button class="btn btn-default" type="button" id="zoom_out" onclick="$('#avatar').guillotine('zoomOut')">
