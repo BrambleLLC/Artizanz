@@ -95,11 +95,11 @@
                                     <i class="fa fa-search-plus"></i>
                                 </button>
                             </div>
-                            <h6>Upload Profile Picture (Optional)</h6>
                             <div class="input-group">
                                 {{ form.profile_picture(class="form-control", onchange="setImage(this)") }}
-                                <span class="input-group-addon btn-default" id="upload_button" onclick="uploadImage()">Upload</span>
+                                <span class="input-group-addon btn btn-primary" id="upload_button" onclick="uploadImage()">Upload</span>
                             </div>
+                            <h6>Upload Profile Picture (Optional)</h6>
                             {{ form.profile_picture_crop_options }}
                         </div>
                     </div>
