@@ -1,6 +1,6 @@
 from flask import request, render_template, redirect, url_for, session, json
 from src import app
-from forms import SignUpForm, LoginForm, RecoveryForm, AdvancedSearchForm
+from forms import SignUpForm, LoginForm, RecoveryForm, AdvancedSearchForm, SellAnArtworkForm
 from functools import wraps
 from sessions import verify_session, create_session, destroy_session, set_session_next, get_session_next, \
                      delete_session_next
@@ -46,7 +46,10 @@ def work(wid):
 @app.route("/upload", methods=["GET", "POST"])
 @login_required
 def upload():
-    return render_template("upload.html")
+    form = SellAnArtworkForm()
+    if form.validate_on_submit():
+        return "test"
+    return render_template("upload.html", form=form)
 
 
 @app.route("/advanced-search", methods=["GET", "POST"])

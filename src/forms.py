@@ -30,10 +30,22 @@ class RecoveryForm(Form):
 
 
 class AdvancedSearchForm(Form):
-    vendor_name = StringField("Vendor_name")
-    piece_name = StringField("Piece_name")
+    vendor_name = StringField("Vendor name")
+    piece_name = StringField("Piece name")
     medium = StringField("Medium")
-    price_low = StringField("Price_low")
-    price_high = StringField("Price_high")
+    price_low = StringField("Price low")
+    price_high = StringField("Price high")
     width = StringField("Width")
     height = StringField("Height")
+
+
+class SellAnArtworkForm(Form):
+    piece_name = StringField("Piece name")
+    medium = StringField("Medium", validators=[DataRequired()])
+    width = StringField("Width", validators=[DataRequired()])
+    height = StringField("Height", validators=[DataRequired()])
+    starting_bid = StringField("Starting bid", validators=[DataRequired()])
+    buy_now = StringField("Buy now")
+    artwork_picture = FileField("Artwork", validators=[DataRequired()])
+
+

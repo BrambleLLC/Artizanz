@@ -1,7 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!--suppress HtmlUnknownTarget -->
+<div class="row row-centered" style="padding-top: 10%">
+    <div class="col-lg-4 col-md-4 col-centered">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h2> Sell an Artwork </h2>
+                <hr>
+                <form action="/advanced_search" method="post">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        {{ form.piece_name(class="form-control", placeholder="Name of Piece", rows=1) }}
+                    </div>
 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
