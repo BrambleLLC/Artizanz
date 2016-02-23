@@ -119,7 +119,7 @@ def sign_up():
                 data_url = "data:image/jpg;base64," + base64.b64encode(im_data)
                 user.fs.profile_picture = data_url
                 user.save()
-                return redirect(url_for(login))
+                return redirect(url_for("login"))
     elif request.method != "GET":
         errors = True
         username = request.form.get("username")
@@ -194,4 +194,7 @@ def default_profile():
 
 @app.route("/profile/<string:username>")
 def user_profile(username):
-    return render_template("profile.html", username=username)
+    user = collection.User.find_one({"username": username})
+    if not user:
+        return "404", 404
+    return render_template("profile.html", user=user)

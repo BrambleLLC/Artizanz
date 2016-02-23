@@ -8,10 +8,12 @@
       <!-- left column -->
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
             <div class="text-center">
-                <img src="//placehold.it/250" class="avatar img-responsive" alt="avatar">
+                <img src="{{ user.fs.profile_picture }}" class="avatar img-responsive" alt="avatar">
                 <p></p>
                 <p>
+                    {% if user.username == session.get("username") %}
                     <a href="#">Change Profile Picture</a>
+                    {% endif %}
                 </p>
 
             </div>
@@ -19,19 +21,25 @@
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <h4>City/State: </h4>
+                    <h4>City, State: </h4>
                     <h4>E-Mail Address: </h4>
                     <h4>Phone Number: </h4>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                    <h4>Tempe, AZ </h4>
-                    <h4>email@email.com</h4>
-                    <h4>1-234-567-8901</h4>
+                    <h4>{{ user.city + ", " + user.state }} </h4>
+                    <h4>{{ user.email }}</h4>
+                    {% if user.phone_number %}
+                        <h4>{{ user.phone_number }}</h4>
+                    {% else %}
+                        <h4>No phone number listed</h4>
+                    {% endif %}
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-lg-offset-5 col-md-offset-5 col-sm-offset-5 col-xs-offset-5">
+                    {% if user.username == session.get("username") %}
                     <button type="button" class="btn btn-primary btn-md" >
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     </button>
+                    {% endif %}
                 </div>
             </div>
         </div>
