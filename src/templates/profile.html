@@ -3,7 +3,11 @@
 {% block content %}
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <h2>My Profile</h2>
+        {% if user.username == session.get("username") %}
+            <h2>My Profile</h2>
+        {% else %}
+            <h2> {{ user.username }} </h2>
+        {% endif %}
         <hr>
     </div>
     <!-- left column -->
@@ -57,6 +61,9 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h3>Description:</h3>
+            <p>
+                {{ user.description }}
+            </p>
         </div>
     </div>
     </div>
@@ -65,10 +72,12 @@
 
 {% endblock %}
 
-{% block navbar_selector %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#profile").addClass("active");
-        });
-    </script>
-{% endblock %}
+{% if user.username == session.get("username") %}
+    {% block navbar_selector %}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#profile").addClass("active");
+            });
+        </script>
+    {% endblock %}
+{% endif %}
