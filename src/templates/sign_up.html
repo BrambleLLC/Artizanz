@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -8,103 +9,100 @@
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-centered">
         <div class="panel panel-default">
             {% if errors %}
-                <div class="alert alert-danger" role="alert">
-                    {% for error in error_messages %}
-                        <p>
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                            <span class="sr-only">Error:</span>
-                            {{ error }}
-                        </p>
-                    {% endfor %}
-                </div>
-
+            <div class="alert alert-danger" role="alert">
+                {% for error in error_messages %}
+                <p>
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span> {{ error }}
+                </p>
+                {% endfor %}
+            </div>
             {% endif %}
-            <form method="post" action="/sign_up" enctype="multipart/form-data" id="#sign_up_form">
-                <div class="panel-body" id="secret_panel">
-
-                </div>
-                <div class="hidden" id="page1">
-                    {{ form.csrf_token }}
-                    <div class="form-group">
-                        {{ form.username(class="form-control", placeholder="Username", rows=1) }}
+            <div class="panel-body">
+                <form method="post" action="/sign_up" enctype="multipart/form-data" id="#sign_up_form">
+                    <div id="secret_panel"></div>
+                    <div class="hidden" id="page1">
+                        {{ form.csrf_token }}
+                        <div class="form-group">
+                            {{ form.username(class="form-control", placeholder="Username", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.email(class="form-control", placeholder="Email", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.password(class="form-control", placeholder="Password", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.confirm_password(class="form-control", placeholder="Confirm Password", rows=1) }}
+                        </div>
+                        <button type="button" class="btn btn-md btn-block btn-primary" onclick="moveForward()"> Next </button>
                     </div>
-                    <div class="form-group">
-                        {{ form.email(class="form-control", placeholder="Email", rows=1) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.password(class="form-control", placeholder="Password", rows=1) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.confirm_password(class="form-control", placeholder="Confirm Password", rows=1) }}
-                    </div>
-                    <button type="button" class="btn btn-md btn-block btn-primary" onclick="moveForward()"> Next </button>
-                </div>
-                <div class="hidden" id="page2">
-                    <div class="form-group">
-                        {{ form.address_1(class="form-control", placeholder="Address Line 1", rows=1) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.address_2(class="form-control", placeholder="Address Line 2", rows=1) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.city(class="form-control", placeholder="City", rows=1) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.state(class="form-control", placeholder="State", rows=1) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.zip(class="form-control", placeholder="Zip Code", rows=1) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.country(class="form-control", placeholder="Country", rows=1) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.phone_number(class="form-control", placeholder="Phone Number (Optional)", rows=1) }}
-                    </div>
-                    <div class="row">
-                       <div class="col-xs-6">
-                           <button type="button" class="btn btn-md btn-block btn-primary" onclick="moveBackward()"> Previous </button>
-                       </div>
-                        <div class="col-xs-6">
-                            <button type="button" class="btn btn-md btn-block btn-primary" onclick="moveForward()"> Next </button>
+                    <div class="hidden" id="page2">
+                        <div class="form-group">
+                            {{ form.address_1(class="form-control", placeholder="Address Line 1", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.address_2(class="form-control", placeholder="Address Line 2", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.city(class="form-control", placeholder="City", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.state(class="form-control", placeholder="State", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.zip(class="form-control", placeholder="Zip Code", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.country(class="form-control", placeholder="Country", rows=1) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.phone_number(class="form-control", placeholder="Phone Number (Optional)", rows=1) }}
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-md btn-block btn-primary" onclick="moveBackward()"> Previous </button>
+                            </div>
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-md btn-block btn-primary" onclick="moveForward()"> Next </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="hidden" id="page3">
-                    <div class="form-group">
-                        <div class="text-center">
-                            <div id="theparent">
-                                <img src="//placehold.it/250" class="avatar img" alt="avatar" id="avatar">
+                    <div class="hidden" id="page3">
+                        <div class="form-group">
+                            <div class="text-center">
+                                <div id="theparent">
+                                    <img src="//placehold.it/250" class="avatar img" alt="avatar" id="avatar">
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-default" type="button" id="zoom_out" onclick="$('#avatar').guillotine('zoomOut')">
+                                        <i class="fa fa-search-minus"></i>
+                                    </button>
+                                    <button class="btn btn-default" type="button" id="fit" onclick="$('#avatar').guillotine('fit')">
+                                        <i class="fa fa-arrows-alt"></i>
+                                    </button>
+                                    <button class="btn btn-default" type="button" id="zoom_in" onclick="$('#avatar').guillotine('zoomIn')">
+                                        <i class="fa fa-search-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group">
+                                    {{ form.profile_picture(class="form-control", onchange="setImage(this)") }}
+                                    <span class="input-group-addon btn btn-default" id="upload_button" onclick="uploadImage()">Upload</span>
+                                </div>
+                                <h6>Upload Profile Picture (Optional)</h6> {{ form.profile_picture_crop_options }}
                             </div>
-                            <div class="btn-group" role="group">
-                                <button class="btn btn-default" type="button" id="zoom_out" onclick="$('#avatar').guillotine('zoomOut')">
-                                    <i class="fa fa-search-minus"></i>
-                                </button>
-                                <button class="btn btn-default" type="button" id="fit" onclick="$('#avatar').guillotine('fit')">
-                                    <i class="fa fa-arrows-alt"></i>
-                                </button>
-                                <button class="btn btn-default" type="button" id="zoom_in" onclick="$('#avatar').guillotine('zoomIn')">
-                                    <i class="fa fa-search-plus"></i>
-                                </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-block btn-primary btn-md" onclick="moveBackward()"> Previous </button>
                             </div>
-                            <div class="input-group">
-                                {{ form.profile_picture(class="form-control", onchange="setImage(this)") }}
-                                <span class="input-group-addon btn btn-default" id="upload_button" onclick="uploadImage()">Upload</span>
+                            <div class="col-xs-6">
+                                <button type="submit" class="btn btn-block btn-primary btn-md" onclick="submitRegistration()"> Submit </button>
                             </div>
-                            <h6>Upload Profile Picture (Optional)</h6>
-                            {{ form.profile_picture_crop_options }}
                         </div>
                     </div>
-                    <div class="row">
-                       <div class="col-xs-6">
-                           <button type="button" class="btn btn-block btn-primary btn-md" onclick="moveBackward()"> Previous </button>
-                       </div>
-                        <div class="col-xs-6">
-                            <button type="submit" class="btn btn-block btn-primary btn-md" onclick="submitRegistration()"> Submit </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -116,86 +114,99 @@
 {% endblock %}
 
 {% block navbar_selector %}
-    <script type="text/javascript" src="{{ url_for("static", filename="js/jquery.guillotine.min.js") }}"></script>
-    <script type="text/javascript">
-        var page_num = 1;
-        var file = null;
-        $(document).ready(function () {
-            $(document).keydown(function (e) {
-              if (e.keyCode == 13) {
-                  e.preventDefault();
-                  moveForward();
-              }
-            });
-            showPage1();
+<script type="text/javascript" src="{{ url_for("static", filename="js/jquery.guillotine.min.js") }}"></script>
+<script type="text/javascript">
+    var page_num = 1;
+    var file = null;
+    $(document).ready(function() {
+        $(document).keydown(function(e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                moveForward();
+            }
         });
-        function setImage(input) {
-            if (input.files && input.files[0]) {
-                file = input.files[0];
-            }
-            else {
-                file = null;
-            }
+        showPage1();
+    });
+
+    function setImage(input) {
+        if (input.files && input.files[0]) {
+            file = input.files[0];
+        } else {
+            file = null;
         }
-        function showPage1() {
-            $("#page1").detach().appendTo($("#secret_panel")).removeClass("hidden");
-            $("#username").focus();
-            $("#page_num").html("Part 1 of 3.");
+    }
+
+    function showPage1() {
+        $("#page1").detach().appendTo($("#secret_panel")).removeClass("hidden");
+        $("#username").focus();
+        $("#page_num").html("Part 1 of 3.");
+    }
+
+    function showPage2() {
+        $("#page2").appendTo($("#secret_panel")).removeClass("hidden");
+        $("#address_1").focus();
+        $("#page_num").html("Part 2 of 3.");
+    }
+
+    function showPage3() {
+        $("#page3").appendTo($("#secret_panel")).removeClass("hidden");
+        $("#page_num").html("Part 3 of 3.");
+        var picture = $("#avatar");
+        picture.guillotine({
+            width: 250,
+            height: 250
+        });
+    }
+
+    function moveForward() {
+        switch (page_num) {
+            case 1:
+                $("#page1").detach().insertAfter($("#secret_panel")).addClass("hidden");
+                showPage2();
+                page_num = 2;
+                break;
+            case 2:
+                $("#page2").detach().insertAfter($("#secret_panel")).addClass("hidden");
+                showPage3();
+                page_num = 3;
+                break;
+            case 3:
+                submitRegistration();
+                break;
         }
-        function showPage2() {
-            $("#page2").appendTo($("#secret_panel")).removeClass("hidden");
-            $("#address_1").focus();
-            $("#page_num").html("Part 2 of 3.");
+    }
+
+    function moveBackward() {
+        switch (page_num) {
+            case 2:
+                $("#page2").detach().insertAfter($("#secret_panel")).addClass("hidden");
+                showPage1();
+                page_num = 1;
+                break;
+            case 3:
+                $("#page3").detach().insertAfter($("#secret_panel")).addClass("hidden");
+                showPage2();
+                page_num = 2;
+                break;
         }
-        function showPage3() {
-            $("#page3").appendTo($("#secret_panel")).removeClass("hidden");
-            $("#page_num").html("Part 3 of 3.");
-            var picture = $("#avatar");
-            picture.guillotine({ width:250, height:250 });
+    }
+
+    function submitRegistration() {
+        var s = JSON.stringify($("#avatar").guillotine("getData"));
+        $("#profile_picture_crop_options").val(s);
+    }
+
+    function uploadImage() {
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $("#avatar").attr("src", e.target.result).guillotine("remove").guillotine({
+                    width: 250,
+                    height: 250
+                });
+            };
+            reader.readAsDataURL(file);
         }
-        function moveForward() {
-            switch (page_num) {
-                case 1:
-                    $("#page1").detach().insertAfter($("#secret_panel")).addClass("hidden");
-                    showPage2();
-                    page_num = 2;
-                    break;
-                case 2:
-                    $("#page2").detach().insertAfter($("#secret_panel")).addClass("hidden");
-                    showPage3();
-                    page_num = 3;
-                    break;
-                case 3:
-                    submitRegistration();
-                    break;
-            }
-        }
-        function moveBackward() {
-            switch (page_num) {
-                case 2:
-                    $("#page2").detach().insertAfter($("#secret_panel")).addClass("hidden");
-                    showPage1();
-                    page_num = 1;
-                    break;
-                case 3:
-                    $("#page3").detach().insertAfter($("#secret_panel")).addClass("hidden");
-                    showPage2();
-                    page_num = 2;
-                    break;
-            }
-        }
-        function submitRegistration() {
-            var s = JSON.stringify($("#avatar").guillotine("getData"));
-            $("#profile_picture_crop_options").val(s);
-        }
-        function uploadImage() {
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $("#avatar").attr("src", e.target.result).guillotine("remove").guillotine({ width: 250, height:250 });
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
+    }
+</script>
 {% endblock %}
