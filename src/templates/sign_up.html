@@ -2,16 +2,8 @@
 
 {% block content %}
 <!--suppress HtmlUnknownTarget -->
-
-<!-- Page Header -->
-<div class="row row-centered">
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-centered">
-        <h2 class="page-header">Register</h2>
-    </div>
-</div>
-
 <!-- Projects Row -->
-<div class="row row-centered">
+<div class="row row-centered" style="padding-top: 10%">
     <!-- register -->
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-centered">
         <div class="panel panel-default">
@@ -97,7 +89,7 @@
                             </div>
                             <div class="input-group">
                                 {{ form.profile_picture(class="form-control", onchange="setImage(this)") }}
-                                <span class="input-group-addon btn btn-primary" id="upload_button" onclick="uploadImage()">Upload</span>
+                                <span class="input-group-addon btn btn-default" id="upload_button" onclick="uploadImage()">Upload</span>
                             </div>
                             <h6>Upload Profile Picture (Optional)</h6>
                             {{ form.profile_picture_crop_options }}

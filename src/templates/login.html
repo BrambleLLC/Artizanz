@@ -2,16 +2,12 @@
 
 {% block content %}
 <!--suppress HtmlUnknownTarget -->
-
-<div class="row row-centered">
-    <div class="col-lg-4 col-md-4 col-centered">
-        <h2 class="page-header"> Login </h2>
-    </div>
-</div>
-<div class="row row-centered">
-    <div class="col-lg-4 col-md-4 col-centered">
+<div class="row row-centered" style="padding-top: 10%">
+    <div class="col-lg-4 col-md-4 col-sm-8 col-xs-10 col-centered">
         <div class="panel panel-default">
             <div class="panel-body">
+                <h2> Login </h2>
+                <hr>
                 {% if error %}
                     <div class="alert alert-danger" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -30,7 +26,16 @@
                     <label class="form-group">
                         {{ form.remember_me }}  Remember Me
                     </label>
-                    <button type="submit" class="btn btn-md btn-block btn-primary" > Login </button>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <button type="submit" class="btn btn-md btn-block btn-primary" > Login </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <p class="text-center">
+                                <a href="/sign_up"><h6 class="text-center">Or Register</h6></a>
+                            </p>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -38,7 +43,7 @@
 </div>
 
 <p class="text-center">
-    <a href="/password-reset">Forgot your password?</a>
+    <a href="/password-reset"><h6 class="text-center">Forgot your password?</h6></a>
 </p>
 
 
