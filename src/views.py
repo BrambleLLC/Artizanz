@@ -44,6 +44,7 @@ def work(wid):
 
 
 @app.route("/upload", methods=["GET", "POST"])
+@login_required
 def upload():
     return render_template("upload.html")
 
