@@ -43,9 +43,9 @@ def work(wid):
     return render_template("index.html")
 
 
-@app.route("/search", methods=["GET", "POST"])
-def search():
-    return render_template("search.html")
+@app.route("/upload", methods=["GET", "POST"])
+def upload():
+    return render_template("upload.html")
 
 
 @app.route("/advanced-search", methods=["GET", "POST"])
