@@ -19,7 +19,8 @@ class User(Document):
         "phone_number": unicode,
         "registration_date": datetime.datetime,
         "postings": list,
-        "bids": list
+        "bids": list,
+        "description": unicode
     }
     gridfs = {
         "files": ["profile_picture"]
