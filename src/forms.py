@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, FileField, BooleanField, HiddenField
+from wtforms import StringField, PasswordField, FileField, BooleanField, HiddenField, TextAreaField
 from wtforms.validators import DataRequired
 
 
@@ -47,5 +47,6 @@ class SellAnArtworkForm(Form):
     starting_bid = StringField("Starting Bid", validators=[DataRequired()])
     buy_now = StringField("Buy Now")
     artwork_picture = FileField("Artwork", validators=[DataRequired()])
+    artwork_description = TextAreaField("Artwork Description")
 
 

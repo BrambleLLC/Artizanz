@@ -2,7 +2,7 @@
 
 {% block content %}
 <!--suppress HtmlUnknownTarget -->
-<div class="row row-centered" style="">
+<div class="row row-centered" style="padding-top: 5%">
     <div class="col-lg-8 col-md-8 col-centered">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -18,7 +18,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <div class="text-center">
-                                    <img src="//placehold.it/700x400" id="artwork">
+                                    <img src="//placehold.it/700x400" id="artwork" style="width: 700px; height: 400px">
                                 </div>
                             </div>
                         </div>
@@ -33,18 +33,6 @@
                                 <div class="form-group">
                                     {{ form.piece_name(class="form-control", placeholder="Name of Piece (Optional)", rows=1) }}
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            {{ form.starting_bid(class="form-control", placeholder="Starting Bid", rows=1) }}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            {{ form.buy_now(class="form-control", placeholder="Buy Now Price (Optional)", rows=1) }}
-                                        </div>
-                                    </div>
-                                </div>
                                 <button type="button" class="btn btn-primary btn-block" onclick="moveForward()">Next</button>
                             </div>
                         </div>
@@ -53,19 +41,34 @@
                     <div class="hidden" id="page2">
                         <div class="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2">
                             <div class="form-group">
-                                {{ form.medium(class="form-control", placeholder="Medium", rows=1) }}
+                                {{ form.medium(class="form-control", placeholder="Medium (seperated by commas, e.g. canvas, oil paints)", rows=1) }}
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
-                                        {{ form.width(class="form-control", placeholder="Width", rows=1) }}
+                                        {{ form.starting_bid(class="form-control", placeholder="Starting Bid", rows=1) }}
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <div class="form-group">
-                                        {{ form.height(class="form-control", placeholder="Height", rows=1) }}
+                                        {{ form.buy_now(class="form-control", placeholder="Buy Now Price (Optional)", rows=1) }}
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        {{ form.width(class="form-control", placeholder="Width (in inches)", rows=1) }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        {{ form.height(class="form-control", placeholder="Height (in inches)", rows=1) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form.artwork_description(class="form-control", maxlength="1000", placeholder="Description (1000 characters)", rows=4) }}
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
