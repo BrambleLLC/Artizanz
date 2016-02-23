@@ -10,7 +10,7 @@ from __init__ import collection
 import base64
 import re
 
-password_regex = "$[a-zA-Z0-9!@#\$%\^&\*\-\+,\.\?]{8,}^"
+password_regex = "^[a-zA-Z0-9!@#\$%\^&\*\-\+,\.\?]{8,}$"
 pattern = re.compile(password_regex)
 
 
