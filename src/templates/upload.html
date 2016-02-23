@@ -2,16 +2,80 @@
 
 {% block content %}
 <!--suppress HtmlUnknownTarget -->
-<div class="row row-centered" style="padding-top: 10%">
-    <div class="col-lg-4 col-md-4 col-centered">
+<div class="row row-centered" style="">
+    <div class="col-lg-8 col-md-8 col-centered">
         <div class="panel panel-default">
             <div class="panel-body">
                 <h2> Sell an Artwork </h2>
                 <hr>
-                <form action="/advanced_search" method="post">
+                <form action="/upload" method="post">
                     {{ form.csrf_token }}
-                    <div class="form-group">
-                        {{ form.piece_name(class="form-control", placeholder="Name of Piece", rows=1) }}
+
+                    <div id="secret_panel">
+
+                    </div>
+                    <div class="hidden" id="page1">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <img src="//placehold.it/700x400" id="artwork">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        {{ form.artwork_picture(class="form-control", onchange="setImage(this)") }}
+                                        <span class="input-group-addon btn btn-default" id="upload_button" onclick="uploadImage()">Upload</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {{ form.piece_name(class="form-control", placeholder="Name of Piece (Optional)", rows=1) }}
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            {{ form.starting_bid(class="form-control", placeholder="Starting Bid", rows=1) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            {{ form.buy_now(class="form-control", placeholder="Buy Now Price (Optional)", rows=1) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-block" onclick="moveForward()">Next</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hidden" id="page2">
+                        <div class="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2">
+                            <div class="form-group">
+                                {{ form.medium(class="form-control", placeholder="Medium", rows=1) }}
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        {{ form.width(class="form-control", placeholder="Width", rows=1) }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        {{ form.height(class="form-control", placeholder="Height", rows=1) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <button type="button" class="btn btn-primary btn-block" onclick="moveBackward()">Previous</button>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <button type="button" class="btn btn-primary btn-block" onclick="moveForward()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </form>
@@ -24,8 +88,82 @@
 
 {% block navbar_selector %}
     <script type="text/javascript">
+        var file = null;
+        var current_page;
+
+        var page1;
+        var page2;
+        var secretPanel;
+        var artwork;
+
         $(document).ready(function () {
             $("#upload").addClass("active");
+            current_page = 1;
+            page1 = $("#page1");
+            page2 = $("#page2");
+            secretPanel = $("#secret_panel");
+            artwork = $("#artwork");
+            showPage1();
         });
+
+        function showPage1() {
+            page1.detach().appendTo(secretPanel).removeClass("hidden");
+        }
+
+        function showPage2() {
+            page2.detach().appendTo(secretPanel).removeClass("hidden");
+        }
+
+        function hidePage1() {
+            page1.detach().insertAfter(secretPanel).addClass("hidden");
+        }
+
+        function hidePage2() {
+            page2.detach().insertAfter(secretPanel).addClass("hidden");
+        }
+
+        function moveForward() {
+            switch (current_page) {
+                case 1:
+                    hidePage1();
+                    showPage2();
+                    current_page = 2;
+                    break;
+                case 2:
+                    break;
+            }
+        }
+
+        function moveBackward() {
+            switch (current_page) {
+                case 1:
+                    break;
+                case 2:
+                    hidePage2();
+                    showPage1();
+                    current_page = 1;
+                    break;
+            }
+        }
+
+        function setImage(input) {
+            if (input.files && input.files[0]) {
+                file = input.files[0];
+            }
+            else {
+                file = null;
+            }
+        }
+
+        function uploadImage() {
+            if (file !== null) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    artwork.attr("src", e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
     </script>
 {% endblock %}

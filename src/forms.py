@@ -44,8 +44,8 @@ class SellAnArtworkForm(Form):
     medium = StringField("Medium", validators=[DataRequired()])
     width = StringField("Width", validators=[DataRequired()])
     height = StringField("Height", validators=[DataRequired()])
-    starting_bid = StringField("Starting bid", validators=[DataRequired()])
-    buy_now = StringField("Buy now")
+    starting_bid = StringField("Starting Bid", validators=[DataRequired()])
+    buy_now = StringField("Buy Now")
     artwork_picture = FileField("Artwork", validators=[DataRequired()])
 
 

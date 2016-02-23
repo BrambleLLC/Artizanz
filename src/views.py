@@ -28,6 +28,7 @@ def login_required(f):
 def validate_password(password):
     return True if pattern.match(password) else False
 
+
 @app.before_request
 def regenerate():
     session.modified = True
