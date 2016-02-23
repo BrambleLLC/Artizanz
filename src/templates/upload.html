@@ -15,15 +15,15 @@
 
                     </div>
                     <div class="hidden" id="page1">
-                        <div class="row">
+                        <div class="row-centered">
                             <div class="form-group">
                                 <div class="text-center">
-                                    <img src="//placehold.it/700x400" id="artwork" style="width: 700px; height: 400px">
+                                    <img class="img img-responsive img-thumbnail" src="//placehold.it/700x400" id="artwork" style="width: 700px; height: 400px">
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2">
+                        <div class="row-centered">
+                            <div class="col-lg-8 col-md-8 col-centered">
                                 <div class="form-group">
                                     <div class="input-group">
                                         {{ form.artwork_picture(class="form-control", onchange="setImage(this)") }}
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                {{ form.artwork_description(class="form-control", maxlength="1000", placeholder="Description (1000 characters)", rows=4) }}
+                                {{ form.artwork_description(class="form-control", maxlength="1000", placeholder="Description (1000 characters)", rows=8) }}
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
