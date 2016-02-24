@@ -105,6 +105,8 @@
         var artwork;
         var errorPanel;
 
+        var currencyRegex = /^(\d{1,3}(,\d{3})*|(\d+))(\.\d{2})?$/
+
         $(document).ready(function () {
             $("#upload").addClass("active");
             current_page = 1;
@@ -133,27 +135,91 @@
             page2.detach().insertAfter(secretPanel).addClass("hidden");
         }
 
+        function verifyPage1() {
+            return file !== null;
+        }
+
+        function verifyPage2() {
+            var errorField = 0;
+            if ($("#medium").val() === "") {
+                errorField |= 1;
+            }
+            var startingBid = $("#starting_bid").val();
+            if (startingBid === "" || startingBid.match(currencyRegex) === null) {
+                errorField |= 2;
+            }
+            var width = $("#width").val();
+            if (width === "" || width.match(/^\d*\.?\d+$/) === null) {
+                errorField |= 4;
+            }
+            var height = $("#height").val();
+            if (width === "" || height.match(/^\d*\.?\d+$/) === null) {
+                errorField |= 8;
+            }
+            var description = $("#artwork_description").val();
+            if (description === "") {
+                errorField |= 16;
+            }
+            return errorField;
+        }
+
+        function displayErrors(flags) {
+            errorPanel.removeClass("hidden").html("");
+            var errMsg = "\
+                        <p>\
+                            <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\
+                            <span class=\"sr-only\">Error:</span> {}\
+                        </p>";
+            var a = flags & 1;
+            var b = flags & 2;
+            var c = flags & 4;
+            var d = flags & 8;
+            var e = flags & 16;
+            if (a === 1) {
+                errorPanel.append(errMsg.replace("{}", "Error 1 has been triggered"));
+            }
+            if (b === 2) {
+                errorPanel.append(errMsg.replace("{}", "Error 2 has been triggered"));
+            }
+            if (c === 4) {
+                errorPanel.append(errMsg.replace("{}", "Error 4 has been triggered"));
+            }
+            if (d === 8) {
+                errorPanel.append(errMsg.replace("{}", "Error 8 has been triggered"));
+            }
+            if (e === 16) {
+                errorPanel.append(errMsg.replace("{}", "Error 16 has been triggered"));
+            }
+        }
+
         function moveForward() {
             switch (current_page) {
                 case 1:
-                    if (file !== null) {
+                    if (verifyPage1()) {
                         hidePage1();
                         showPage2();
                         current_page = 2;
                         errorPanel.addClass("hidden").html("");
                     }
                     else {
-                        var errMsg = '\
+                        var errMsg = "\
                         <p>\
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>\
-                            <span class="sr-only">Error:</span> You must upload an image of your art first\
-                        </p>';
+                            <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\
+                            <span class=\"sr-only\">Error:</span> You must upload an image of your art first\
+                        </p>";
                         errorPanel.removeClass("hidden").html(errMsg);
                         window.scrollTo(0, 0);
                     }
                     break;
                 case 2:
-                    submitUpload();
+                    var errorField = verifyPage2();
+                    if (errorField === 0) {
+                        submitUpload();
+                    }
+                    else {
+                        displayErrors(errorField);
+                        window.scrollTo(0, 0);
+                    }
                     break;
             }
         }
@@ -163,6 +229,7 @@
                 case 1:
                     break;
                 case 2:
+                    errorPanel.addClass("hidden").html("");
                     hidePage2();
                     showPage1();
                     current_page = 1;
@@ -193,11 +260,11 @@
                 errorPanel.addClass("hidden").html("");
             }
             else {
-                var errMsg = '\
+                var errMsg = "\
                     <p>\
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>\
-                        <span class="sr-only">Error:</span> You must choose an image of your art first\
-                    </p>';
+                        <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\
+                        <span class=\"sr-only\">Error:</span> You must choose an image of your art first\
+                    </p>";
                 errorPanel.removeClass("hidden").html(errMsg);
                 window.scrollTo(0, 0);
             }
