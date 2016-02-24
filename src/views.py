@@ -78,7 +78,7 @@ def upload():
         data_url = "data:image/jpg;base64," + base64.b64encode(image_data)
         artwork.fs.artwork_picture = data_url
         artwork.save()
-        return "<img src='{}' />".format(artwork.fs.artwork_picture)
+        return redirect("")
     return render_template("upload.html", form=form)
 
 
