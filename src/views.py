@@ -142,7 +142,7 @@ def sign_up():
             user.save()
             if profile_picture_file and profile_picture_crop_options:
                 options = json.loads(profile_picture_crop_options)
-                image = Image.open(profile_picture_file)
+                image = Image.open(profile_picture_file).convert("RGB")
                 s_io = StringIO()
                 x = int(options["x"] / options["scale"])
                 y = int(options["y"] / options["scale"])
