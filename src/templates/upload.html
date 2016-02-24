@@ -176,19 +176,19 @@
             var d = flags & 8;
             var e = flags & 16;
             if (a === 1) {
-                errorPanel.append(errMsg.replace("{}", "Error 1 has been triggered"));
+                errorPanel.append(errMsg.replace("{}", "Please provide at least one medium"));
             }
             if (b === 2) {
-                errorPanel.append(errMsg.replace("{}", "Error 2 has been triggered"));
+                errorPanel.append(errMsg.replace("{}", "Please provide a starting bid price"));
             }
             if (c === 4) {
-                errorPanel.append(errMsg.replace("{}", "Error 4 has been triggered"));
+                errorPanel.append(errMsg.replace("{}", "Please provide a width for your art"));
             }
             if (d === 8) {
-                errorPanel.append(errMsg.replace("{}", "Error 8 has been triggered"));
+                errorPanel.append(errMsg.replace("{}", "Please provide a height for your art"));
             }
             if (e === 16) {
-                errorPanel.append(errMsg.replace("{}", "Error 16 has been triggered"));
+                errorPanel.append(errMsg.replace("{}", "Please provide a description for your art"));
             }
         }
 
