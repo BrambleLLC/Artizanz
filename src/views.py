@@ -78,7 +78,7 @@ def upload():
         data_url = "data:image/jpg;base64," + base64.b64encode(image_data)
         artwork.fs.artwork_picture = data_url
         artwork.save()
-        return redirect("")
+        return redirect("successful_upload")
     return render_template("upload.html", form=form)
 
 
@@ -219,6 +219,11 @@ def password_reset():
 @app.route("/faq", methods=["GET"])
 def faq():
     return render_template("faq.html")
+
+
+@app.route("/successful_upload", methods=["GET"])
+def successful_upload():
+    return render_template("successful_upload.html")
 
 
 @app.route("/profile", methods=["GET"])
