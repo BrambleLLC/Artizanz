@@ -226,7 +226,7 @@ def successful_upload():
     return render_template("successful_upload.html")
 
 
-@app.route("/profile", methods=["GET"])
+@app.route("/profile", methods=["GET", "POST"])
 @login_required
 def default_profile():
     return redirect(url_for("user_profile", username=session["username"]))
@@ -238,3 +238,8 @@ def user_profile(username):
     if not user:
         return "404", 404
     return render_template("profile.html", user=user)
+
+
+@app.route("/artwork", methods=["GET", "POST"])
+def artwork():
+    return render_template("artwork.html")
