@@ -4,9 +4,10 @@ from forms import SignUpForm, LoginForm, RecoveryForm, AdvancedSearchForm, SellA
 from functools import wraps
 from sessions import verify_session, create_session, destroy_session, set_session_next, get_session_next, \
                      delete_session_next
+from flask.ext.paginate import Pagination
 from PIL import Image
 from cStringIO import StringIO
-from __init__ import collection
+from __init__ import users, art
 import base64
 import re
 import datetime
@@ -37,7 +38,14 @@ def regenerate():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    try:
+        page = int(request.args.get("page", 1))
+    except ValueError:
+        page = 1
+
+    artworks = art.Artwork.find()
+    pagination = Pagination(page=page, total=art.count(), record_name="artwork", bs_version=3)
+    return render_template("index.html", artworks=artworks, pagination=pagination)
 
 
 @app.route("/w/<string:wid>")
@@ -57,27 +65,27 @@ def upload():
         starting_bid = request.form["starting_bid"]
         buy_now = request.form.get("buy_now")
         artwork_description = request.form["artwork_description"]
-        artwork = collection.Artwork()
-        artwork["title"] = u"Untitled" if not piece_name else piece_name
-        artwork["mediums"] = medium.split(",")
-        artwork["width"] = float(width)
-        artwork["height"] = float(height)
+        new_artwork = art.Artwork()
+        new_artwork["title"] = u"Untitled" if not piece_name else piece_name
+        new_artwork["mediums"] = medium.split(",")
+        new_artwork["width"] = float(width)
+        new_artwork["height"] = float(height)
         starting_bid_fields = starting_bid.split(".")
-        artwork["bid_price_dollars"] = 0 if not starting_bid_fields[0] else int(starting_bid_fields[0])
-        artwork["bid_price_cents"] = 0 if len(starting_bid_fields) < 2 else int(starting_bid_fields[1])
+        new_artwork["bid_price_dollars"] = 0 if not starting_bid_fields[0] else int(starting_bid_fields[0])
+        new_artwork["bid_price_cents"] = 0 if len(starting_bid_fields) < 2 else int(starting_bid_fields[1])
         buy_fields = buy_now.split(".")
-        artwork["buy_price_dollars"] = 0 if not buy_fields[0] else int(buy_fields[0])
-        artwork["buy_price_dollars"] = 0 if len(buy_fields) < 2 else int(buy_fields[1])
-        artwork["description"] = u"None" if not artwork_description else artwork_description
-        artwork["end_time"] = datetime.datetime.utcnow() + datetime.timedelta(days=7)
-        artwork.save()
+        new_artwork["buy_price_dollars"] = 0 if not buy_fields[0] else int(buy_fields[0])
+        new_artwork["buy_price_dollars"] = 0 if len(buy_fields) < 2 else int(buy_fields[1])
+        new_artwork["description"] = u"None" if not artwork_description else artwork_description
+        new_artwork["end_time"] = datetime.datetime.utcnow() + datetime.timedelta(days=7)
+        new_artwork.save()
         s_io = StringIO()
         artwork_picture = Image.open(request.files["artwork_picture"]).convert("RGB")
         artwork_picture.save(s_io, format="JPEG", quality=90)
         image_data = s_io.getvalue()
         data_url = "data:image/jpg;base64," + base64.b64encode(image_data)
-        artwork.fs.artwork_picture = data_url
-        artwork.save()
+        new_artwork.fs.artwork_picture = data_url
+        new_artwork.save()
         return redirect("successful_upload")
     return render_template("upload.html", form=form)
 
@@ -110,7 +118,7 @@ def sign_up():
         profile_picture_file = request.files.get("profile_picture")
         profile_picture_crop_options = request.form.get("profile_picture_crop_options")
 
-        query_results = collection.User.find(projection={"$or": [{"username": username}, {"email": email}]})
+        query_results = users.User.find(projection={"$or": [{"username": username}, {"email": email}]})
         if query_results.count():
             for result in query_results:
                 if result["username"] == username:
@@ -128,7 +136,7 @@ def sign_up():
             error_messages.add("Passwords do not match")
 
         if not errors:
-            user = collection.User()
+            user = users.User()
             user["username"] = username
             user.set_password(password)
             user["email"] = email
@@ -159,7 +167,7 @@ def sign_up():
         errors = True
         username = request.form.get("username")
         email = request.form.get("email")
-        query_results = collection.User.find(projection={"$or": [{"username": username}, {"email": email}]})
+        query_results = users.User.find(projection={"$or": [{"username": username}, {"email": email}]})
         if query_results.count():
             for result in query_results:
                 if result["username"] == username:
@@ -234,7 +242,7 @@ def default_profile():
 
 @app.route("/profile/<string:username>")
 def user_profile(username):
-    user = collection.User.find_one({"username": username})
+    user = users.User.find_one({"username": username})
     if not user:
         return "404", 404
     return render_template("profile.html", user=user)
