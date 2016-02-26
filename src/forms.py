@@ -47,6 +47,6 @@ class SellAnArtworkForm(Form):
     starting_bid = StringField("Starting Bid", validators=[DataRequired()])
     buy_now = StringField("Buy Now")
     artwork_picture = FileField("Artwork", validators=[DataRequired()])
-    artwork_description = TextAreaField("Artwork Description")
+    artwork_description = TextAreaField("Artwork Description", validators=[DataRequired()])
 
 

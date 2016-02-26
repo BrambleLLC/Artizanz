@@ -78,7 +78,7 @@ def upload():
         data_url = "data:image/jpg;base64," + base64.b64encode(image_data)
         artwork.fs.artwork_picture = data_url
         artwork.save()
-        return redirect("")
+        return redirect("successful_upload")
     return render_template("upload.html", form=form)
 
 
@@ -221,7 +221,12 @@ def faq():
     return render_template("faq.html")
 
 
-@app.route("/profile", methods=["GET"])
+@app.route("/successful_upload", methods=["GET"])
+def successful_upload():
+    return render_template("successful_upload.html")
+
+
+@app.route("/profile", methods=["GET", "POST"])
 @login_required
 def default_profile():
     return redirect(url_for("user_profile", username=session["username"]))
@@ -233,3 +238,8 @@ def user_profile(username):
     if not user:
         return "404", 404
     return render_template("profile.html", user=user)
+
+
+@app.route("/artwork", methods=["GET", "POST"])
+def artwork():
+    return render_template("artwork.html")
