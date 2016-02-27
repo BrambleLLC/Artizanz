@@ -24,8 +24,35 @@
 <!-- /.row -->
 
 <!-- Projects Row -->
-<!-- Projects Row -->
-<div class="row">
+    {% for artwork in artworks %}
+        {% if (loop.index % 2) == 1 %}
+            <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
+                <div class="img-16-9-container"><img class="img img-responsive img-16-9" src="{{ artwork.fs.artwork_picture }}"/></div>
+                <hr>
+                <h3>
+                    <a href="/artwork"> {{ artwork.title }} </a>
+                </h3>
+                <p> Current Bid - ${{ artwork.bid_price_dollars }}.{{ "%02d" % artwork.bid_price_cents }} </p>
+                {% if buy_now_price %}
+                    <p> Buy Now - ${{ artwork.buy_price_dollars }}.{{ "%02d" % artwork.buy_price_cents }} </p>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="col-lg-5 col-md-6 portfolio-item">
+                <div class="img-16-9-container"><img class="img img-responsive img-16-9" src="{{ artwork.fs.artwork_picture }}"/></div>
+                <hr>
+                <h3>
+                    <a href="/artwork"> {{ artwork.title }} </a>
+                </h3>
+                <p> Current Bid - ${{ artwork.bid_price_dollars }}.{{ "%02d" % artwork.bid_price_cents }} </p>
+                {% if buy_now_price %}
+                    <p> Buy Now - ${{ artwork.buy_price_dollars }}.{{ "%02d" % artwork.buy_price_cents }} </p>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+<!--
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="/artwork">
             <div class="img-16-9-container" href="/artwork"><img class="img img-responsive img-16-9" src="static/art1.jpg" id="artwork" ></div>
@@ -48,10 +75,8 @@
         <p>Bid- $0.00</p>
         <p>Buy now- $999.99</p>
     </div>
-</div>
 <!-- /.row -->
-
-<!-- Projects Row -->
+<!-- Projects Row
 <div class="row">
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="#">
@@ -78,7 +103,7 @@
 </div>
 <!-- /.row -->
 
-<!-- Projects Row -->
+<!-- Projects Row
 <div class="row">
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="#">
@@ -105,7 +130,7 @@
 </div>
 <!-- /.row -->
 
-<!-- Projects Row -->
+<!-- Projects Row
 <div class="row">
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="#">
@@ -132,7 +157,7 @@
 </div>
 <!-- /.row -->
 
-<!-- Projects Row -->
+<!-- Projects Row
 <div class="row">
     <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
         <a href="#">
@@ -168,9 +193,9 @@
     </div>
 </div>
 
-<p class="text-center">
+<div class="text-center">
     {{ pagination.info }}
-</p>
+</div>
 <hr>
 
 <div class="foot">
