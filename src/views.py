@@ -43,8 +43,8 @@ def index():
     except ValueError:
         page = 1
 
-    artworks = art.Artwork.find()
-    pagination = Pagination(page=page, total=art.count(), record_name="artwork", bs_version=3)
+    artworks = art.Artwork.find().skip((page - 1) * 10).limit(10)
+    pagination = Pagination(page=page, total=art.count(), record_name="artworks", bs_version=3)
     return render_template("index.html", artworks=artworks, pagination=pagination)
 
 
@@ -191,7 +191,7 @@ def login():
     if form.validate_on_submit():
         username = request.form["username"]
         password = request.form["password"]
-        user = collection.User.find_one({"$or": [{"username": username}, {"email": username}]})
+        user = users.User.find_one({"$or": [{"username": username}, {"email": username}]})
         if user and user.verify_password(password):
             session.permanent = form.data.get("remember_me")
             create_session(user["username"])
