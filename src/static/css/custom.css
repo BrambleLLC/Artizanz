@@ -11,9 +11,17 @@
     margin-right:-4px;
 }
 
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+
+.foot, .page-wrap:after {
+    height: 180px;
+}
 .foot {
-    position: relative;
-    width: 100%;
     padding: 15px 0;
 }
 
@@ -37,4 +45,13 @@
     top: 0;
     bottom: 0;
     margin: auto;
+}
+
+.page-wrap {
+  min-height: 100%;
+  margin-bottom: -180px;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
 }
