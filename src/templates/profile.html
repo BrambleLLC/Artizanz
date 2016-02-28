@@ -27,7 +27,7 @@
         <!-- left column -->
         <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="text-center">
-                <img src="{{ user.fs.profile_picture }}" class="avatar img-responsive img img-thumbnail" alt="avatar">
+                <img src="/content/profile_pictures/{{ user["photo_path"] }}" class="avatar img-responsive img img-thumbnail" alt="avatar">
                 <p></p>
                 {% if user.username == session.get("username") %}
                     <p>
@@ -84,7 +84,7 @@
         <!-- left column -->
         <div class="col-xs-12 col-centered">
             <div class="text-center">
-                <img src="{{ user.fs.profile_picture }}" class="avatar img-responsive img img-thumbnail" alt="avatar">
+                <img src="/content/profile_pictures/{{ user["photo_path"] }}" class="avatar img-responsive img img-thumbnail" alt="avatar">
                 <p></p>
                 {% if user.username == session.get("username") %}
                     <p>

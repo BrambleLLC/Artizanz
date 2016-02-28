@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for, session, json
+from flask import request, render_template, redirect, url_for, session, json, send_file, send_from_directory
 from src import app
 from forms import SignUpForm, LoginForm, RecoveryForm, AdvancedSearchForm, SellAnArtworkForm
 from functools import wraps
@@ -83,10 +83,10 @@ def upload():
         new_artwork["end_time"] = datetime.datetime.utcnow() + datetime.timedelta(days=7)
         artwork_picture = Image.open(request.files["artwork_picture"]).convert("RGB")
         filename = binascii.hexlify(os.urandom(20)) + ".jpg"
-        filepath = os.path.join(app.config["ARTWORK_FOLDER"], filename)
+        filepath = os.path.join("src/" + app.config["ARTWORK_FOLDER"], filename)
         with open(filepath, "wb") as f:
             artwork_picture.save(f, format="JPEG", quality=90)
-        new_artwork["photo_path"] = filepath
+        new_artwork["photo_path"] = unicode(filename)
         new_artwork.save()
         return redirect("successful_upload")
     return render_template("upload.html", form=form)
@@ -157,10 +157,10 @@ def sign_up():
                 image = image.crop((x, y, int(x + 250 / options["scale"]), int(y + 250 / options["scale"])))
                 image = image.resize((250, 250), Image.ANTIALIAS)
                 filename = secure_filename(username + ".jpg")
-                filepath = os.path.join(app.config["PROPIC_FOLDER"], filename)
+                filepath = os.path.join("src/" + app.config["PROPIC_FOLDER"], filename)
                 with open(filepath, "wb") as f:
                     image.save(f, format="JPEG", quality=90)
-                user["photo_path"] = filename
+                user["photo_path"] = unicode(filename)
             user.save()
             return redirect(url_for("login"))
 
@@ -252,3 +252,13 @@ def user_profile(username):
 @app.route("/artwork", methods=["GET", "POST"])
 def artwork():
     return render_template("artwork.html")
+
+
+@app.route("/content/profile_pictures/<string:username>")
+def profile_picture(username):
+    return send_file(app.config["PROPIC_FOLDER"] + "/" + username)
+
+
+@app.route("/content/artwork_pictures/<string:artwork_name>")
+def artwork_picture(artwork_name):
+    return send_file(app.config["ARTWORK_FOLDER"] + "/" + artwork_name)
