@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for, session, json
+from flask import request, render_template, redirect, url_for, session, json, send_file, send_from_directory
 from src import app
 from forms import SignUpForm, LoginForm, RecoveryForm, AdvancedSearchForm, SellAnArtworkForm
 from functools import wraps
@@ -11,6 +11,9 @@ from __init__ import users, art
 import base64
 import re
 import datetime
+from werkzeug import secure_filename
+import os
+import binascii
 
 password_regex = "^[a-zA-Z0-9!@#\$%\^&\*\-\+,\.\?]{8,}$"
 pattern = re.compile(password_regex)
@@ -78,13 +81,12 @@ def upload():
         new_artwork["buy_price_dollars"] = 0 if len(buy_fields) < 2 else int(buy_fields[1])
         new_artwork["description"] = u"None" if not artwork_description else artwork_description
         new_artwork["end_time"] = datetime.datetime.utcnow() + datetime.timedelta(days=7)
-        new_artwork.save()
-        s_io = StringIO()
         artwork_picture = Image.open(request.files["artwork_picture"]).convert("RGB")
-        artwork_picture.save(s_io, format="JPEG", quality=90)
-        image_data = s_io.getvalue()
-        data_url = "data:image/jpg;base64," + base64.b64encode(image_data)
-        new_artwork.fs.artwork_picture = data_url
+        filename = binascii.hexlify(os.urandom(20)) + ".jpg"
+        filepath = os.path.join("src/" + app.config["ARTWORK_FOLDER"], filename)
+        with open(filepath, "wb") as f:
+            artwork_picture.save(f, format="JPEG", quality=90)
+        new_artwork["photo_path"] = unicode(filename)
         new_artwork.save()
         return redirect("successful_upload")
     return render_template("upload.html", form=form)
@@ -147,21 +149,20 @@ def sign_up():
             user["zipcode"] = zip_code
             user["country"] = country
             user["phone_number"] = phone_number if phone_number else u""
-            user.save()
             if profile_picture_file and profile_picture_crop_options:
                 options = json.loads(profile_picture_crop_options)
                 image = Image.open(profile_picture_file).convert("RGB")
-                s_io = StringIO()
                 x = int(options["x"] / options["scale"])
                 y = int(options["y"] / options["scale"])
                 image = image.crop((x, y, int(x + 250 / options["scale"]), int(y + 250 / options["scale"])))
                 image = image.resize((250, 250), Image.ANTIALIAS)
-                image.save(s_io, format="JPEG", quality=90)
-                im_data = s_io.getvalue()
-                data_url = "data:image/jpg;base64," + base64.b64encode(im_data)
-                user.fs.profile_picture = data_url
-                user.save()
-                return redirect(url_for("login"))
+                filename = secure_filename(username + ".jpg")
+                filepath = os.path.join("src/" + app.config["PROPIC_FOLDER"], filename)
+                with open(filepath, "wb") as f:
+                    image.save(f, format="JPEG", quality=90)
+                user["photo_path"] = unicode(filename)
+            user.save()
+            return redirect(url_for("login"))
 
     elif request.method != "GET":
         errors = True
@@ -251,3 +252,13 @@ def user_profile(username):
 @app.route("/artwork", methods=["GET", "POST"])
 def artwork():
     return render_template("artwork.html")
+
+
+@app.route("/content/profile_pictures/<string:username>")
+def profile_picture(username):
+    return send_file(app.config["PROPIC_FOLDER"] + "/" + username)
+
+
+@app.route("/content/artwork_pictures/<string:artwork_name>")
+def artwork_picture(artwork_name):
+    return send_file(app.config["ARTWORK_FOLDER"] + "/" + artwork_name)

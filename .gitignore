@@ -57,3 +57,6 @@ docs/_build/
 target/
 venv/
 .idea/
+
+# Content
+src/content

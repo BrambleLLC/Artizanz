@@ -20,10 +20,8 @@ class User(Document):
         "registration_date": datetime.datetime,
         "postings": list,
         "bids": list,
-        "description": unicode
-    }
-    gridfs = {
-        "files": ["profile_picture"]
+        "description": unicode,
+        "photo_path": unicode
     }
     required_fields = ["username", "password_hash", "email", "address1", "city", "state", "country", "zipcode",
                        "phone_number", "registration_date"]
@@ -51,10 +49,8 @@ class Artwork(Document):
         "end_time": datetime.datetime,
         "bids": list,
         "mediums": list,
-        "bought": bool
-    }
-    gridfs = {
-        "files": ["artwork_picture"]
+        "bought": bool,
+        "photo_path": unicode
     }
     required_fields = ["bid_price_dollars", "bid_price_cents", "start_time", "end_time", "mediums"]
     default_values = {"start_time": datetime.datetime.utcnow(), "bought": False}

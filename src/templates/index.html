@@ -29,7 +29,7 @@
         {%- for artwork in row %}
             {% if (loop.index % 2) == 1 %}
                 <div class="col-lg-5 col-lg-offset-1 col-md-6 portfolio-item">
-                    <div class="img-16-9-container"><img class="img img-responsive img-16-9" src="{{ artwork.fs.artwork_picture }}"/></div>
+                    <div class="img-16-9-container"><img class="img img-responsive img-16-9" src="/content/artwork_pictures/{{ artwork["photo_path"] }}"/></div>
                     <hr>
                     <h3>
                         <a href="/artwork"> {{ artwork.title }} </a>
@@ -41,7 +41,7 @@
                 </div>
             {%- else %}
                 <div class="col-lg-5 col-md-6 portfolio-item">
-                    <div class="img-16-9-container"><img class="img img-responsive img-16-9" src="{{ artwork.fs.artwork_picture }}"/></div>
+                    <div class="img-16-9-container"><img class="img img-responsive img-16-9" src="/content/artwork_pictures/{{ artwork["photo_path"] }}"/></div>
                     <hr>
                     <h3>
                         <a href="/artwork"> {{ artwork.title }} </a>
