@@ -11,6 +11,8 @@ from __init__ import users, art
 import base64
 import re
 import datetime
+from werkzeug import secure_filename
+import os
 
 password_regex = "^[a-zA-Z0-9!@#\$%\^&\*\-\+,\.\?]{8,}$"
 pattern = re.compile(password_regex)
@@ -147,21 +149,18 @@ def sign_up():
             user["zipcode"] = zip_code
             user["country"] = country
             user["phone_number"] = phone_number if phone_number else u""
-            user.save()
             if profile_picture_file and profile_picture_crop_options:
                 options = json.loads(profile_picture_crop_options)
                 image = Image.open(profile_picture_file).convert("RGB")
-                s_io = StringIO()
                 x = int(options["x"] / options["scale"])
                 y = int(options["y"] / options["scale"])
                 image = image.crop((x, y, int(x + 250 / options["scale"]), int(y + 250 / options["scale"])))
                 image = image.resize((250, 250), Image.ANTIALIAS)
-                image.save(s_io, format="JPEG", quality=90)
-                im_data = s_io.getvalue()
-                data_url = "data:image/jpg;base64," + base64.b64encode(im_data)
-                user.fs.profile_picture = data_url
-                user.save()
-                return redirect(url_for("login"))
+                filename = secure_filename(username + ".jpg")
+                with open(os.path.join(app["PROPIC_FOLDER"], filename)) as f:
+                    image.save(f, format="JPEG", quality=90)
+            user.save()
+            return redirect(url_for("login"))
 
     elif request.method != "GET":
         errors = True
