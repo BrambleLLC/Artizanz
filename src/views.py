@@ -13,6 +13,7 @@ import re
 import datetime
 from werkzeug import secure_filename
 import os
+import binascii
 
 password_regex = "^[a-zA-Z0-9!@#\$%\^&\*\-\+,\.\?]{8,}$"
 pattern = re.compile(password_regex)
@@ -80,13 +81,12 @@ def upload():
         new_artwork["buy_price_dollars"] = 0 if len(buy_fields) < 2 else int(buy_fields[1])
         new_artwork["description"] = u"None" if not artwork_description else artwork_description
         new_artwork["end_time"] = datetime.datetime.utcnow() + datetime.timedelta(days=7)
-        new_artwork.save()
-        s_io = StringIO()
         artwork_picture = Image.open(request.files["artwork_picture"]).convert("RGB")
-        artwork_picture.save(s_io, format="JPEG", quality=90)
-        image_data = s_io.getvalue()
-        data_url = "data:image/jpg;base64," + base64.b64encode(image_data)
-        new_artwork.fs.artwork_picture = data_url
+        filename = binascii.hexlify(os.urandom(20)) + ".jpg"
+        filepath = os.path.join(app.config["ARTWORK_FOLDER"], filename)
+        with open(filepath, "wb") as f:
+            artwork_picture.save(f, format="JPEG", quality=90)
+        new_artwork["photo_path"] = filepath
         new_artwork.save()
         return redirect("successful_upload")
     return render_template("upload.html", form=form)
@@ -157,8 +157,10 @@ def sign_up():
                 image = image.crop((x, y, int(x + 250 / options["scale"]), int(y + 250 / options["scale"])))
                 image = image.resize((250, 250), Image.ANTIALIAS)
                 filename = secure_filename(username + ".jpg")
-                with open(os.path.join(app["PROPIC_FOLDER"], filename)) as f:
+                filepath = os.path.join(app.config["PROPIC_FOLDER"], filename)
+                with open(filepath, "wb") as f:
                     image.save(f, format="JPEG", quality=90)
+                user["photo_path"] = filename
             user.save()
             return redirect(url_for("login"))
 
