@@ -61,6 +61,7 @@ def work(wid):
 def upload():
     form = SellAnArtworkForm()
     if form.validate_on_submit():
+        artist_name = request.form.get("artist_name")
         piece_name = request.form.get("piece_name")
         medium = request.form["medium"]
         width = request.form["width"]
@@ -69,6 +70,7 @@ def upload():
         buy_now = request.form.get("buy_now")
         artwork_description = request.form["artwork_description"]
         new_artwork = art.Artwork()
+        new_artwork["artist_name"] = artist_name
         new_artwork["title"] = u"Untitled" if not piece_name else piece_name
         new_artwork["mediums"] = medium.split(",")
         new_artwork["width"] = float(width)
