@@ -166,7 +166,7 @@
             if (description === "") {
                 errorField |= 16;
             }
-            var artistName = $("#artist_name");
+            var artistName = $("#artist_name").val();
             if (artistName === "") {
                 errorField |= 32;
             }
@@ -186,7 +186,7 @@
             var d = flags & 8;
             var e = flags & 16;
             var f = flags & 32;
-            if (f == 32) {
+            if (f === 32) {
                 errorPanel.append(errMsg.replace("{}", "Please provide an artist"));
             }
             if (a === 1) {
