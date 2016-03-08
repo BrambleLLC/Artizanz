@@ -84,7 +84,7 @@ def upload():
         artwork_picture = Image.open(request.files["artwork_picture"]).convert("RGB")
         filename = binascii.hexlify(os.urandom(20)) + ".jpg"
         filepath = os.path.join("src/" + app.config["ARTWORK_FOLDER"], filename)
-        with open(filepath, "wb") as f:
+        with open(filepath, "wb+") as f:
             artwork_picture.save(f, format="JPEG", quality=90)
         new_artwork["photo_path"] = unicode(filename)
         new_artwork.save()
@@ -158,7 +158,7 @@ def sign_up():
                 image = image.resize((250, 250), Image.ANTIALIAS)
                 filename = secure_filename(username + ".jpg")
                 filepath = os.path.join("src/" + app.config["PROPIC_FOLDER"], filename)
-                with open(filepath, "wb") as f:
+                with open(filepath, "wb+") as f:
                     image.save(f, format="JPEG", quality=90)
                 user["photo_path"] = unicode(filename)
             user.save()
