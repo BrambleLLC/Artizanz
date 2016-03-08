@@ -37,6 +37,7 @@ class User(Document):
 @connection.register
 class Artwork(Document):
     structure = {
+        "artist_name": unicode,
         "title": unicode,
         "width": float,
         "height": float,
@@ -52,7 +53,7 @@ class Artwork(Document):
         "bought": bool,
         "photo_path": unicode
     }
-    required_fields = ["bid_price_dollars", "bid_price_cents", "start_time", "end_time", "mediums"]
+    required_fields = ["artist_name", "bid_price_dollars", "bid_price_cents", "start_time", "end_time", "mediums"]
     default_values = {"start_time": datetime.datetime.utcnow(), "bought": False}
 
 

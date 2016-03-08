@@ -45,6 +45,9 @@
                         <div class="row row-centered">
                             <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-centered">
                                 <div class="form-group">
+                                    {{ form.artist_name(class="form-control", placeholder="Artist Name", rows=1) }}
+                                </div>
+                                <div class="form-group">
                                     {{ form.medium(class="form-control", placeholder="Medium (seperated by commas, e.g. canvas, oil paints)", rows=1) }}
                                 </div>
                                 <div class="row row-centered">
@@ -163,6 +166,10 @@
             if (description === "") {
                 errorField |= 16;
             }
+            var artistName = $("#artist_name");
+            if (artistName === "") {
+                errorField |= 32;
+            }
             return errorField;
         }
 
@@ -178,6 +185,10 @@
             var c = flags & 4;
             var d = flags & 8;
             var e = flags & 16;
+            var f = flags & 32;
+            if (f == 32) {
+                errorPanel.append(errMsg.replace("{}", "Please provide an artist"));
+            }
             if (a === 1) {
                 errorPanel.append(errMsg.replace("{}", "Please provide at least one medium"));
             }
