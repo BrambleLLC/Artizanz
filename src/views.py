@@ -262,3 +262,9 @@ def profile_picture(username):
 @app.route("/content/artwork_pictures/<string:artwork_name>")
 def artwork_picture(artwork_name):
     return send_file(app.config["ARTWORK_FOLDER"] + "/" + artwork_name)
+
+
+@app.route("/pull", methods=["GET", "POST"])
+def pull():
+    os.system("git pull origin master")
+    return ""
