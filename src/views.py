@@ -51,6 +51,12 @@ def index():
     return render_template("index.html", artworks=artworks, pagination=pagination)
 
 
+@app.route("/search")
+def search():
+    query_string = request.args.get("q")
+    return query_string
+
+
 @app.route("/w/<string:wid>")
 def work(wid):
     return render_template("index.html")
