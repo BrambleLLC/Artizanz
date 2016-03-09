@@ -249,6 +249,11 @@ def default_profile():
     return redirect(url_for("user_profile", username=session["username"]))
 
 
+@app.route("/edit_profile", methods=["GET"])
+def edit_profile():
+    return render_template("edit_profile.html")
+
+
 @app.route("/profile/<string:username>")
 def user_profile(username):
     user = users.User.find_one({"username": username})
