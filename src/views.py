@@ -54,7 +54,14 @@ def index():
 @app.route("/search")
 def search():
     query_string = request.args.get("q")
-    return query_string
+    try:
+        page = int(request.args.get("page", 1))
+    except ValueError:
+        page = 1
+
+    artworks = art.Artwork.find({"$or": [{"title": query_string}, {"artist_name": query_string}]}).skip((page - 1) * 10).limit(10)
+    pagination = Pagination(page=page, total=art.count(), record_name="artworks", bs_version=3)
+    return render_template("search.html", artworks=artworks, pagination=pagination)
 
 
 @app.route("/w/<string:wid>")
@@ -128,7 +135,7 @@ def sign_up():
         profile_picture_file = request.files.get("profile_picture")
         profile_picture_crop_options = request.form.get("profile_picture_crop_options")
 
-        query_results = users.User.find(projection={"$or": [{"username": username}, {"email": email}]})
+        query_results = users.User.find(projection={"$or": [{"username": username}, {"email": email}, {"username": email}]})
         if query_results.count():
             for result in query_results:
                 if result["username"] == username:
@@ -258,7 +265,7 @@ def edit_profile():
 def user_profile(username):
     user = users.User.find_one({"username": username})
     if not user:
-        return "404", 404
+        return "404 - User not found", 404
     return render_template("profile.html", user=user)
 
 
