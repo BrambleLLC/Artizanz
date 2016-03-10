@@ -8,7 +8,7 @@
                 <form>
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Piece, artist, medium, price range e.g. 100-250..." autofocus="autofocus">
+                            <input id="search_field" type="text" class="form-control" placeholder="Piece, artist, medium, price range e.g. 100-250..." autofocus="autofocus">
                             <span class="input-group-addon btn btn-default" id="search_button">Search</span>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
 {% block navbar_selector %}
     <script type="text/javascript">
     $("#search_button").click(function () {
-        var params = {q: $("#search_button").val(), page: 1};
+        var params = {q: $("#search_field").val(), page: 1};
         var paramsEncoded = $.param(params);
         window.location.href = "http://artizanz.com/search?" + paramsEncoded;
     });
