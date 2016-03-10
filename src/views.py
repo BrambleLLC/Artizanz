@@ -14,6 +14,7 @@ import datetime
 from werkzeug import secure_filename
 import os
 import binascii
+from decimal import Decimal
 
 password_regex = "^[a-zA-Z0-9!@#\$%\^&\*\-\+,\.\?]{8,}$"
 pattern = re.compile(password_regex)
@@ -53,13 +54,66 @@ def index():
 
 @app.route("/search")
 def search():
-    query_string = request.args.get("q")
+    advanced = request.args.get("advanced")
     try:
         page = int(request.args.get("page", 1))
     except ValueError:
         page = 1
 
-    artworks = art.Artwork.find({"$or": [{"title": query_string}, {"artist_name": query_string}]}).skip((page - 1) * 10).limit(10)
+    if not advanced:
+        query_string = request.args.get("q")
+        artworks = art.Artwork.find({"$or": [{"title": query_string}, {"artist_name": query_string}]}).skip((page - 1) * 10).limit(10)
+    else:
+        query_projection = []
+        vendor_name = request.args.get("vendor_name")
+        if vendor_name:
+            query_projection.append({"vendor_name": vendor_name})
+        artist_name = request.args.get("artist_name")
+        if artist_name:
+            query_projection.append({"artist_name": artist_name})
+        piece_name = request.args.get("piece_name")
+        if piece_name:
+            query_projection.append({"title": piece_name})
+        medium = request.args.get("medium")
+        if medium:
+            mediums = medium.split(",")
+            mediums = map(lambda x: x.strip(), mediums)
+            query_projection.append({"mediums": {"$in": mediums}})
+        price_low = request.args.get("price_low")
+        if price_low:
+            try:
+                price_low_fields = price_low.split(".")
+                price_low_dollars = 0 if not price_low_fields[0] else int(price_low_fields[0])
+                price_low_cents = 0 if len(price_low_fields) < 2 else int(price_low_fields[1])
+                price_low = price_low_dollars * 100 + price_low_cents
+                query_projection.append({"$or": [{"bid_price": {"$gte": price_low}}, {"buy_price": {"$gte": price_low}}]})
+            except ValueError:
+                pass
+        price_high = request.args.get("price_high")
+        if price_high:
+            try:
+                price_high_fields = price_high.split(".")
+                price_low_dollars = 0 if not price_high_fields[0] else int(price_high_fields[0])
+                price_low_cents = 0 if len(price_high_fields) < 2 else int(price_high_fields[1])
+                price_high = price_low_dollars * 100 + price_low_cents
+                query_projection.append({"$or": [{"bid_price": {"$lte": price_high}}, {"buy_price": {"$lte": price_high}}]})
+            except ValueError:
+                pass
+        width = request.args.get("width")
+        if width:
+            try:
+                width = float(width)
+                query_projection.append({"width": width})
+            except ValueError:
+                pass
+        height = request.args.get("height")
+        if height:
+            try:
+                height = float(height)
+                query_projection.append({"height": height})
+            except ValueError:
+                pass
+        artworks = art.Artwork.find({"$and": query_projection}).skip((page - 1) * 10).limit(10)
     pagination = Pagination(page=page, total=art.count(), record_name="artworks", bs_version=3)
     return render_template("search.html", artworks=artworks, pagination=pagination)
 
@@ -89,11 +143,13 @@ def upload():
         new_artwork["width"] = float(width)
         new_artwork["height"] = float(height)
         starting_bid_fields = starting_bid.split(".")
-        new_artwork["bid_price_dollars"] = 0 if not starting_bid_fields[0] else int(starting_bid_fields[0])
-        new_artwork["bid_price_cents"] = 0 if len(starting_bid_fields) < 2 else int(starting_bid_fields[1])
+        bid_price_dollars = 0 if not starting_bid_fields[0] else int(starting_bid_fields[0])
+        bid_price_cents = 0 if len(starting_bid_fields) < 2 else int(starting_bid_fields[1])
+        new_artwork["bid_price"] = bid_price_dollars * 100 + bid_price_cents
         buy_fields = buy_now.split(".")
-        new_artwork["buy_price_dollars"] = 0 if not buy_fields[0] else int(buy_fields[0])
-        new_artwork["buy_price_dollars"] = 0 if len(buy_fields) < 2 else int(buy_fields[1])
+        buy_price_dollars = 0 if not buy_fields[0] else int(buy_fields[0])
+        buy_price_cents = 0 if len(buy_fields) < 2 else int(buy_fields[1])
+        new_artwork["buy_price"] = buy_price_dollars * 100 + buy_price_cents
         new_artwork["description"] = u"None" if not artwork_description else artwork_description
         new_artwork["end_time"] = datetime.datetime.utcnow() + datetime.timedelta(days=7)
         artwork_picture = Image.open(request.files["artwork_picture"]).convert("RGB")

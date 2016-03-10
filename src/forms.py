@@ -31,6 +31,7 @@ class RecoveryForm(Form):
 
 class AdvancedSearchForm(Form):
     vendor_name = StringField("Vendor name")
+    artist_name = StringField("Artist name")
     piece_name = StringField("Piece name")
     medium = StringField("Medium")
     price_low = StringField("Price low")

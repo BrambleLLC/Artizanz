@@ -9,7 +9,6 @@
                 <h2> Advanced Search </h2>
                 <hr>
                 <form action="/advanced_search" method="post">
-                    {{ form.csrf_token }}
                     <div class="form-group">
                         {{ form.vendor_name(class="form-control", placeholder="Name of Vendor", autofocus="autofocus", rows=1) }}
                     </div>
@@ -31,7 +30,7 @@
                     <div class="form-group">
                         {{ form.height(class="form-control", placeholder="Height (in inches)", rows=1) }}
                     </div>
-                    <button type="submit" class="btn btn-md btn-block btn-primary" > Search </button>
+                    <button type="button" class="btn btn-md btn-block btn-primary" id="search_button" > Search </button>
                 </form>
             </div>
         </div>
@@ -39,3 +38,47 @@
 </div>
 {% endblock %}
 
+{% block navbar_selector %}
+    <script type="text/javascript">
+        $("#search_button").click(function () {
+            var params = {};
+            params["advanced"] = true;
+            var vendor_name = $("#vendor_name").val();
+            if (vendor_name !== "") {
+                params["vendor_name"] = vendor_name;
+            }
+            var artist_name = $("#artist_name").val();
+            if (artist_name !== "") {
+                params["artist_name"] = artist_name;
+            }
+            var piece_name = $("#piece_name").val();
+            if (piece_name !== "") {
+                params["piece_name"] = piece_name;
+            }
+            var medium = $("#medium").val();
+            if (medium !== "") {
+                params["medium"] = medium;
+            }
+            var price_low = $("#price_low").val();
+            if (price_low !== "") {
+                params["price_low"] = price_low;
+            }
+            var price_high = $("#price_high").val();
+            if (price_high !== "") {
+                params["price_high"] = price_high
+            }
+            var width = $("#width").val();
+            if (width !== "") {
+                params["width"] = width;
+            }
+            var height = $("#height").val();
+            if (height !== "") {
+                params["height"] = height;
+            }
+            if (params !== {}) {
+                var paramString = $.param(params);
+                window.location.href = "http://artizanz.com/search?" + paramString
+            }
+        });
+    </script>
+{% endblock %}

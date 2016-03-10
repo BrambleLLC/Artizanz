@@ -34,9 +34,9 @@
                     <h3>
                         <a href="/artwork"> {{ artwork.title }} </a>
                     </h3>
-                    <p> Current Bid - ${{ artwork.bid_price_dollars }}.{{ "%02d" % artwork.bid_price_cents }} </p>
+                     <p> Current Bid - ${{ artwork.bid_price|CurrencyFilter }} </p>
                     {%- if buy_now_price %}
-                        <p> Buy Now - ${{ artwork.buy_price_dollars }}.{{ "%02d" % artwork.buy_price_cents }} </p>
+                        <p> Buy Now - ${{ artwork.buy_price|CurrencyFilter }} </p>
                     {%- endif %}
                 </div>
             {%- else %}
@@ -46,9 +46,9 @@
                     <h3>
                         <a href="/artwork"> {{ artwork.title }} </a>
                     </h3>
-                    <p> Current Bid - ${{ artwork.bid_price_dollars }}.{{ "%02d" % artwork.bid_price_cents }} </p>
+                     <p> Current Bid - ${{ artwork.bid_price|CurrencyFilter }} </p>
                     {%- if buy_now_price %}
-                        <p> Buy Now - ${{ artwork.buy_price_dollars }}.{{ "%02d" % artwork.buy_price_cents }} </p>
+                        <p> Buy Now - ${{ artwork.buy_price|CurrencyFilter }} </p>
                     {%- endif %}
                 </div>
             {%- endif %}
@@ -75,7 +75,9 @@
 {% block navbar_selector %}
     <script type="text/javascript">
     $("#search_button").click(function () {
-
+        var params = {q: $("#search_field").val(), page: 1};
+        var paramsEncoded = $.param(params);
+        window.location.href = "http://artizanz.com/search?" + paramsEncoded;
     });
     </script>
 {% endblock %}
