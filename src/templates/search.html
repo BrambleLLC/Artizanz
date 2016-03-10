@@ -8,7 +8,7 @@
                 <form>
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Piece, artist, medium, price range e.g. 100-250..." autofocus="autofocus">
+                            <input id="search_field" type="text" class="form-control" placeholder="Piece, artist, medium, price range e.g. 100-250..." autofocus="autofocus">
                             <span class="input-group-addon btn btn-default" id="search_button">Search</span>
                         </div>
                     </div>
@@ -34,8 +34,8 @@
                     <h3>
                         <a href="/artwork"> {{ artwork.title }} </a>
                     </h3>
-                     <p> Current Bid - ${{ artwork.bid_price|CurrencyFilter }} </p>
-                    {%- if buy_now_price %}
+                    <p> Current Bid - ${{ artwork.bid_price|CurrencyFilter }} </p>
+                    {%- if artwork.buy_price %}
                         <p> Buy Now - ${{ artwork.buy_price|CurrencyFilter }} </p>
                     {%- endif %}
                 </div>
@@ -47,7 +47,7 @@
                         <a href="/artwork"> {{ artwork.title }} </a>
                     </h3>
                      <p> Current Bid - ${{ artwork.bid_price|CurrencyFilter }} </p>
-                    {%- if buy_now_price %}
+                    {%- if artwork.buy_price %}
                         <p> Buy Now - ${{ artwork.buy_price|CurrencyFilter }} </p>
                     {%- endif %}
                 </div>

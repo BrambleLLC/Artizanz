@@ -114,7 +114,7 @@ def search():
             except ValueError:
                 pass
         artworks = art.Artwork.find({"$and": query_projection}).skip((page - 1) * 10).limit(10)
-    pagination = Pagination(page=page, total=art.count(), record_name="artworks", bs_version=3)
+    pagination = Pagination(page=page, total=artworks.count(), record_name="artworks", bs_version=3)
     return render_template("search.html", artworks=artworks, pagination=pagination)
 
 
