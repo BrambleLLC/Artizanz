@@ -22,7 +22,7 @@ if not os.path.exists("src/" + app.config["PROPIC_FOLDER"]):
 def CurrencyFilter(value):
     return str(Decimal(value) / Decimal(100))
 
-app.jinja_env.filters["CurrencyFilter"] = CurrencyFilter()
+app.jinja_env.filters["CurrencyFilter"] = CurrencyFilter
 
 from models import *
 from views import *
