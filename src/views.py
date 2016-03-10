@@ -137,6 +137,7 @@ def upload():
         buy_now = request.form.get("buy_now")
         artwork_description = request.form["artwork_description"]
         new_artwork = art.Artwork()
+        new_artwork["vendor_name"] = session.get("username")
         new_artwork["artist_name"] = artist_name
         new_artwork["title"] = u"Untitled" if not piece_name else piece_name
         new_artwork["mediums"] = medium.split(",")
