@@ -77,7 +77,7 @@
     $("#search_button").click(function () {
         var params = {q: $("#search_button").val(), page: 1};
         var paramsEncoded = $.param(params);
-        window.location.href = "http://artizanz.com/search?" + params;
+        window.location.href = "http://artizanz.com/search?" + paramsEncoded;
     });
     </script>
 {% endblock %}
