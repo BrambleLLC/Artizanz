@@ -67,18 +67,17 @@ def search():
         query_projection = []
         vendor_name = request.args.get("vendor_name")
         if vendor_name:
-            query_projection.append({"vendor_name": vendor_name})
+            query_projection.append({"vendor_name_lower": vendor_name.lower()})
         artist_name = request.args.get("artist_name")
         if artist_name:
-            query_projection.append({"artist_name": artist_name})
+            query_projection.append({"artist_name_lower": artist_name.lower()})
         piece_name = request.args.get("piece_name")
         if piece_name:
-            query_projection.append({"title": piece_name})
+            query_projection.append({"title_lower": piece_name.lower()})
         medium = request.args.get("medium")
         if medium:
-            mediums = medium.split(",")
-            mediums = map(lambda x: x.strip(), mediums)
-            query_projection.append({"mediums": {"$in": mediums}})
+            mediums = map(lambda x: x.strip().lower(), medium.split(u","))
+            query_projection.append({"mediums": {"$in": mediums.lower()}})
         price_low = request.args.get("price_low")
         if price_low:
             try:
@@ -131,6 +130,7 @@ def upload():
         artist_name = request.form.get("artist_name")
         piece_name = request.form.get("piece_name")
         medium = request.form["medium"]
+        mediums = map(lambda x: x.strip().lower(), medium.split(u","))
         width = request.form["width"]
         height = request.form["height"]
         starting_bid = request.form["starting_bid"]
@@ -140,7 +140,7 @@ def upload():
         new_artwork["vendor_name"] = session.get("username")
         new_artwork["artist_name"] = artist_name
         new_artwork["title"] = u"Untitled" if not piece_name else piece_name
-        new_artwork["mediums"] = medium.split(",")
+        new_artwork["mediums"] = mediums
         new_artwork["width"] = float(width)
         new_artwork["height"] = float(height)
         starting_bid_fields = starting_bid.split(".")
