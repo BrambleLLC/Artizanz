@@ -138,7 +138,7 @@ def upload():
         artwork_description = request.form["artwork_description"]
         new_artwork = art.Artwork()
         new_artwork["vendor_name"] = session.get("username")
-        new_artwork["vendor_name_lower"] = new_artwork["session_name"].lower()
+        new_artwork["vendor_name_lower"] = new_artwork["vendor_name"].lower()
         new_artwork["artist_name"] = artist_name
         new_artwork["artist_name_lower"] = artist_name.lower()
         new_artwork["title"] = u"Untitled" if not piece_name else piece_name
