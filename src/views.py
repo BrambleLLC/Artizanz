@@ -159,6 +159,7 @@ def upload():
         with open(filepath, "w+b") as f:
             artwork_picture.save(f, format="JPEG", quality=90)
         new_artwork["photo_path"] = unicode(filename)
+        new_artwork.populate_lowers()
         new_artwork.save()
         return redirect("successful_upload")
     return render_template("upload.html", form=form)

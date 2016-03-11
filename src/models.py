@@ -38,8 +38,11 @@ class User(Document):
 class Artwork(Document):
     structure = {
         "vendor_name": unicode,
+        "vendor_name_lower": unicode,
         "artist_name": unicode,
+        "artist_name_lower": unicode,
         "title": unicode,
+        "title_lower": unicode,
         "width": float,
         "height": float,
         "description": unicode,
@@ -52,8 +55,13 @@ class Artwork(Document):
         "bought": bool,
         "photo_path": unicode
     }
-    required_fields = ["vendor_name", "artist_name", "bid_price", "start_time", "end_time", "mediums"]
+    required_fields = ["vendor_name", "vendor_name_lower", "artist_name", "artist_name_lower", "title", "title_lower", "bid_price", "start_time", "end_time", "mediums"]
     default_values = {"start_time": datetime.datetime.utcnow(), "bought": False}
+
+    def populate_lowers(self):
+        self["vendor_name_lower"] = self["vendor_name"].lower()
+        self["artist_name_lower"] = self["artist_name_lower"].lower()
+        self["title_lower"] = self["title"].lower()
 
 
 @connection.register
