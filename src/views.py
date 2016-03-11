@@ -62,7 +62,7 @@ def search():
 
     if not advanced:
         query_string = request.args.get("q")
-        artworks = art.Artwork.find({"$or": [{"title": query_string}, {"artist_name": query_string}]}).skip((page - 1) * 10).limit(10)
+        artworks = art.Artwork.find({"$or": [{"title_lower": query_string}, {"artist_name_lower": query_string}]}).skip((page - 1) * 10).limit(10)
     else:
         query_projection = []
         vendor_name = request.args.get("vendor_name")
