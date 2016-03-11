@@ -74,6 +74,15 @@
 
 {% block navbar_selector %}
     <script type="text/javascript">
+    $(document).ready(function() {
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    });
+
     $("#search_button").click(function () {
         var params = {q: $("#search_field").val(), page: 1};
         var paramsEncoded = $.param(params);

@@ -63,17 +63,7 @@ class Artwork(Document):
 class Bid(Document):
     structure = {
         "bid_id": int,
-        "bid_amount_dollars": int,
-        "bid_amount_cents": int,
+        "bid_amount": int,
         "user_id": unicode
     }
-    required_fields = ["bid_id", "bid_amount_dollars", "bid_amount_cents", "user_id"]
-
-
-@connection.register
-class Tag(Document):
-    structure = {
-        "tag_id": unicode,
-        "postings": list
-    }
-    required_fields = ["tag_id"]
+    required_fields = ["bid_id", "bid_amount", "user_id"]
