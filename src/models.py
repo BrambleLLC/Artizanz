@@ -58,11 +58,6 @@ class Artwork(Document):
     required_fields = ["vendor_name", "vendor_name_lower", "artist_name", "artist_name_lower", "title", "title_lower", "bid_price", "start_time", "end_time", "mediums"]
     default_values = {"start_time": datetime.datetime.utcnow(), "bought": False}
 
-    def populate_lowers(self):
-        self["vendor_name_lower"] = self["vendor_name"].lower()
-        self["artist_name_lower"] = self["artist_name_lower"].lower()
-        self["title_lower"] = self["title"].lower()
-
 
 @connection.register
 class Bid(Document):
