@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% endblock %}
+
+{% if user.username == session.get("username") %}
+    {% block navbar_selector %}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#cart").addClass("active");
+            });
+        </script>
+    {% endblock %}
+{% endif %}
