@@ -287,6 +287,12 @@ def logout():
     return redirect(url_for("index"))
 
 
+@app.route("/cart", methods=["GET", "POST"])
+@login_required
+def cart():
+    return render_template("cart.html")
+
+
 @app.route("/tos", methods=["GET"])
 def tos():
     return render_template("tos.html")
