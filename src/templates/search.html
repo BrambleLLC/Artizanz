@@ -85,6 +85,7 @@
                 var params = {q: $("#search_field").val(), page: 1};
                 var paramsEncoded = $.param(params);
                 window.location.href = "http://artizanz.com/search?" + paramsEncoded;
+                return false;
             }
         });
     });
