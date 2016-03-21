@@ -47,26 +47,26 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li id="upload">
-                        <a href="/upload">Post an Artwork!</a>
+                        <a href="/upload">Post an Artwork!&nbsp;<i class="fa fa-lg fa-paint-brush"></i></a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if not session.get("username") %}
                         <li id="login">
-                            <a href="/login">Login</a>
+                            <a href="/login">Login&nbsp;<i class="fa fa-lg fa-sign-in"></i></a>
                         </li>
                         <li id="sign_up">
-                            <a href="/sign_up">Register</a>
+                            <a href="/sign_up">Register&nbsp;<i class="fa fa-lg fa-plus-circle"></i></a>
                         </li>
                     {% else %}
                         <li id="cart">
                             <a href="#">My Cart&nbsp;<i class="fa fa-lg fa-shopping-cart"></i></a>
                         </li>
                         <li id="profile">
-                            <a href="/profile">My Profile</a>
+                            <a href="/profile">My Profile&nbsp;<i class="fa fa-lg fa-user"></i></a>
                         </li>
                         <li>
-                            <a href="/logout">Logout</a>
+                            <a href="/logout">Logout&nbsp;<i class="fa fa-lg fa-sign-out"></i></a>
                         </li>
                     {% endif %}
 
