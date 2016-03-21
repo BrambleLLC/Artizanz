@@ -76,9 +76,15 @@
     <script type="text/javascript">
     $(document).ready(function() {
         $(window).keydown(function(event){
-            if(event.keyCode == 13 && $("#search_field").val() === "") {
+            var query = $("#search_field").val();
+            if(event.keyCode == 13 && query === "") {
                 event.preventDefault();
                 return false;
+            }
+            else if (event.keyCode == 13 && query !== "") {
+                var params = {q: $("#search_field").val(), page: 1};
+                var paramsEncoded = $.param(params);
+                window.location.href = "http://artizanz.com/search?" + paramsEncoded;
             }
         });
     });
